@@ -1,0 +1,143 @@
+{
+  "$schema": "https://aiscouncil.com/schema/model-registry/v1",
+  "version": 5,
+  "updated": "2026-02-11T00:00:00Z",
+
+  "meta": {
+    "source": "https://github.com/aiscouncil/registry/blob/main/models.json",
+    "contributing": "https://github.com/aiscouncil/registry/blob/main/CONTRIBUTING.md",
+    "refreshInterval": 86400,
+    "description": "Community-managed model registry for AI Supreme Council. Submit PRs to add models."
+  },
+
+  "providers": {
+    "anthropic": {
+      "name": "Anthropic",
+      "baseUrl": "https://api.anthropic.com/v1/messages",
+      "authType": "header",
+      "authHeader": "x-api-key",
+      "extraHeaders": {
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      "keyUrl": "https://console.anthropic.com/settings/keys",
+      "format": "anthropic"
+    },
+    "openai": {
+      "name": "OpenAI",
+      "baseUrl": "https://api.openai.com/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://platform.openai.com/api-keys",
+      "format": "openai"
+    },
+    "xai": {
+      "name": "xAI",
+      "baseUrl": "https://api.x.ai/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://console.x.ai",
+      "format": "openai"
+    },
+    "gemini": {
+      "name": "Google Gemini",
+      "baseUrl": "https://generativelanguage.googleapis.com/v1beta",
+      "authType": "query",
+      "authParam": "key",
+      "keyUrl": "https://aistudio.google.com/apikey",
+      "format": "gemini"
+    },
+    "openrouter": {
+      "name": "OpenRouter",
+      "baseUrl": "https://openrouter.ai/api/v1/chat/completions",
+      "authType": "bearer",
+      "extraHeaders": {
+        "HTTP-Referer": "{{origin}}",
+        "X-Title": "aiscouncil"
+      },
+      "keyUrl": "https://openrouter.ai/keys",
+      "format": "openai"
+    },
+    "ollama": {
+      "name": "Ollama (local)",
+      "baseUrl": "http://localhost:11434/v1/chat/completions",
+      "authType": "none",
+      "format": "openai",
+      "local": true,
+      "detectUrl": "http://localhost:11434/api/tags"
+    }
+  },
+
+  "tiers": {
+    "free": {
+      "label": "Free",
+      "description": "No cost, rate-limited",
+      "badge": "FREE"
+    },
+    "paid": {
+      "label": "Paid",
+      "description": "Pay-per-token via provider API key"
+    },
+    "enterprise": {
+      "label": "Enterprise",
+      "description": "Volume pricing, SLA, dedicated capacity"
+    }
+  },
+
+  "models": [
+
+    {"id":"claude-sonnet-4-20250514","name":"Claude Sonnet 4","provider":"anthropic","context":200000,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["vision","tools","streaming"],"tier":"paid","default":true},
+    {"id":"claude-opus-4-0520","name":"Claude Opus 4","provider":"anthropic","context":200000,"maxOutput":8192,"pricing":{"input":15.0,"output":75.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+    {"id":"claude-haiku-4-5-20251001","name":"Claude Haiku 4.5","provider":"anthropic","context":200000,"maxOutput":8192,"pricing":{"input":0.80,"output":4.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+
+    {"id":"gpt-4o","name":"GPT-4o","provider":"openai","context":128000,"maxOutput":16384,"pricing":{"input":2.50,"output":10.0},"capabilities":["vision","tools","streaming","json_mode"],"tier":"paid","default":true},
+    {"id":"gpt-4o-mini","name":"GPT-4o Mini","provider":"openai","context":128000,"maxOutput":16384,"pricing":{"input":0.15,"output":0.60},"capabilities":["vision","tools","streaming","json_mode"],"tier":"paid"},
+    {"id":"o3","name":"o3","provider":"openai","context":200000,"maxOutput":100000,"pricing":{"input":2.0,"output":8.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+    {"id":"o3-mini","name":"o3 Mini","provider":"openai","context":200000,"maxOutput":100000,"pricing":{"input":1.10,"output":4.40},"capabilities":["tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+    {"id":"o1","name":"o1","provider":"openai","context":200000,"maxOutput":100000,"pricing":{"input":15.0,"output":60.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+
+    {"id":"grok-3","name":"Grok 3","provider":"xai","context":131072,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["tools","streaming"],"tier":"paid","default":true},
+    {"id":"grok-3-mini","name":"Grok 3 Mini","provider":"xai","context":131072,"maxOutput":8192,"pricing":{"input":0.30,"output":0.50},"capabilities":["tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+    {"id":"grok-3-fast","name":"Grok 3 Fast","provider":"xai","context":131072,"maxOutput":8192,"pricing":{"input":5.0,"output":25.0},"capabilities":["tools","streaming"],"tier":"paid"},
+
+    {"id":"gemini-2.5-flash","name":"Gemini 2.5 Flash","provider":"gemini","context":1048576,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming"],"tier":"free","default":true,"rateLimit":"10 RPM free tier"},
+    {"id":"gemini-2.5-pro","name":"Gemini 2.5 Pro","provider":"gemini","context":1048576,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"free","reasoning":true,"rateLimit":"5 RPM free tier"},
+    {"id":"gemini-2.5-flash-lite","name":"Gemini 2.5 Flash-Lite","provider":"gemini","context":1048576,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","streaming"],"tier":"free","rateLimit":"30 RPM free tier"},
+
+    {"id":"openrouter/aurora-alpha","name":"Aurora Alpha (free)","provider":"openrouter","context":128000,"maxOutput":50000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free","reasoning":true},
+    {"id":"openrouter/pony-alpha","name":"Pony Alpha (free)","provider":"openrouter","context":200000,"maxOutput":131000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free","reasoning":true},
+    {"id":"qwen/qwen3-coder:free","name":"Qwen 3 Coder 480B (free)","provider":"openrouter","context":262000,"maxOutput":262000,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
+    {"id":"qwen/qwen3-235b-a22b:free","name":"Qwen 3 235B (free)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
+    {"id":"qwen/qwen3-next-80b-a3b-instruct:free","name":"Qwen 3 Next 80B (free)","provider":"openrouter","context":262144,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
+    {"id":"deepseek/deepseek-r1-0528:free","name":"DeepSeek R1 (free)","provider":"openrouter","context":163840,"maxOutput":163840,"pricing":{"input":0,"output":0},"capabilities":["reasoning","streaming"],"tier":"free","reasoning":true},
+    {"id":"meta-llama/llama-3.3-70b-instruct:free","name":"Llama 3.3 70B (free)","provider":"openrouter","context":128000,"maxOutput":128000,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free","default":true},
+    {"id":"openai/gpt-oss-120b:free","name":"GPT-OSS 120B (free)","provider":"openrouter","context":131072,"maxOutput":131072,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
+    {"id":"openai/gpt-oss-20b:free","name":"GPT-OSS 20B (free)","provider":"openrouter","context":131072,"maxOutput":131072,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
+    {"id":"google/gemma-3-27b-it:free","name":"Gemma 3 27B (free)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming"],"tier":"free"},
+    {"id":"mistralai/mistral-small-3.1-24b-instruct:free","name":"Mistral Small 3.1 (free)","provider":"openrouter","context":128000,"maxOutput":4096,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming"],"tier":"free"},
+    {"id":"nvidia/nemotron-nano-12b-v2-vl:free","name":"Nemotron Nano 12B VL (free)","provider":"openrouter","context":128000,"maxOutput":128000,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","reasoning","streaming"],"tier":"free"},
+    {"id":"nvidia/nemotron-3-nano-30b-a3b:free","name":"Nemotron 3 Nano 30B (free)","provider":"openrouter","context":256000,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
+    {"id":"stepfun/step-3.5-flash:free","name":"Step 3.5 Flash (free)","provider":"openrouter","context":256000,"maxOutput":256000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
+    {"id":"upstage/solar-pro-3:free","name":"Solar Pro 3 (free)","provider":"openrouter","context":128000,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
+    {"id":"arcee-ai/trinity-large-preview:free","name":"Trinity Large 400B (free)","provider":"openrouter","context":131000,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
+    {"id":"arcee-ai/trinity-mini:free","name":"Trinity Mini 26B (free)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
+    {"id":"z-ai/glm-4.5-air:free","name":"GLM 4.5 Air (free)","provider":"openrouter","context":131072,"maxOutput":96000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
+    {"id":"nousresearch/hermes-3-llama-3.1-405b:free","name":"Hermes 3 405B (free)","provider":"openrouter","context":131072,"maxOutput":4096,"pricing":{"input":0,"output":0},"capabilities":["streaming"],"tier":"free"},
+    {"id":"tngtech/tng-r1t-chimera:free","name":"R1T Chimera (free)","provider":"openrouter","context":163840,"maxOutput":65536,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free","reasoning":true},
+
+    {"id":"anthropic/claude-sonnet-4","name":"Claude Sonnet 4 (via OR)","provider":"openrouter","context":200000,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+    {"id":"anthropic/claude-opus-4","name":"Claude Opus 4 (via OR)","provider":"openrouter","context":200000,"maxOutput":8192,"pricing":{"input":15.0,"output":75.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+    {"id":"anthropic/claude-sonnet-4.5","name":"Claude Sonnet 4.5 (via OR)","provider":"openrouter","context":1000000,"maxOutput":16384,"pricing":{"input":3.0,"output":15.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+    {"id":"anthropic/claude-opus-4.5","name":"Claude Opus 4.5 (via OR)","provider":"openrouter","context":200000,"maxOutput":8192,"pricing":{"input":5.0,"output":25.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+    {"id":"anthropic/claude-opus-4.6","name":"Claude Opus 4.6 (via OR)","provider":"openrouter","context":1000000,"maxOutput":16384,"pricing":{"input":5.0,"output":25.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+    {"id":"openai/gpt-4o","name":"GPT-4o (via OR)","provider":"openrouter","context":128000,"maxOutput":16384,"pricing":{"input":2.50,"output":10.0},"capabilities":["vision","tools","streaming","json_mode"],"tier":"paid"},
+    {"id":"openai/o3","name":"o3 (via OR)","provider":"openrouter","context":200000,"maxOutput":100000,"pricing":{"input":2.0,"output":8.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+    {"id":"openai/o3-mini","name":"o3 Mini (via OR)","provider":"openrouter","context":200000,"maxOutput":100000,"pricing":{"input":1.10,"output":4.40},"capabilities":["tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+    {"id":"x-ai/grok-3","name":"Grok 3 (via OR)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["tools","streaming"],"tier":"paid"},
+    {"id":"x-ai/grok-4","name":"Grok 4 (via OR)","provider":"openrouter","context":256000,"maxOutput":16384,"pricing":{"input":3.0,"output":15.0},"capabilities":["tools","streaming"],"tier":"paid"},
+    {"id":"x-ai/grok-4-fast","name":"Grok 4 Fast (via OR)","provider":"openrouter","context":2000000,"maxOutput":16384,"pricing":{"input":0.20,"output":0.50},"capabilities":["tools","streaming"],"tier":"paid"},
+    {"id":"x-ai/grok-4.1-fast","name":"Grok 4.1 Fast (via OR)","provider":"openrouter","context":2000000,"maxOutput":16384,"pricing":{"input":0.20,"output":0.50},"capabilities":["tools","streaming"],"tier":"paid"},
+    {"id":"google/gemini-2.5-flash","name":"Gemini 2.5 Flash (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":0.30,"output":2.50},"capabilities":["vision","tools","streaming"],"tier":"paid"},
+    {"id":"google/gemini-2.5-pro","name":"Gemini 2.5 Pro (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":1.25,"output":10.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+    {"id":"google/gemini-3-pro-preview","name":"Gemini 3 Pro Preview (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":2.0,"output":12.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
+    {"id":"google/gemini-3-flash-preview","name":"Gemini 3 Flash Preview (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":0.50,"output":3.0},"capabilities":["vision","tools","streaming"],"tier":"paid"}
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aiscouncil.com/schema/manifest/v2",
+  "title": "aiscouncil Manifest v2",
+  "description": "Schema for plugin, addon, and mini-program manifests on the aiscouncil platform.",
+  "type": "object",
+  "required": ["name", "version"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "maxLength": 64,
+      "description": "Unique package name (lowercase alphanumeric + hyphens)."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+",
+      "description": "Semver version string."
+    },
+    "abi": {
+      "type": "integer",
+      "const": 1,
+      "description": "ABI version this manifest targets. Currently must be 1."
+    },
+    "type": {
+      "enum": ["plugin", "addon", "mini-program"],
+      "default": "plugin",
+      "description": "Extension type: plugin (hooks only), addon (hooks + UI slots), mini-program (sandboxed iframe app)."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 256,
+      "description": "Short description shown in the store and permission dialog."
+    },
+    "icon": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to a square icon (recommended 128x128 PNG)."
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "url": { "type": "string", "format": "uri" }
+      },
+      "additionalProperties": false
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "storage",
+          "chat:read",
+          "chat:write",
+          "config:read",
+          "config:write",
+          "auth:read",
+          "ui:toast",
+          "ui:modal",
+          "hooks:action",
+          "hooks:filter",
+          "network:fetch"
+        ]
+      },
+      "uniqueItems": true,
+      "description": "Permissions requested by this extension."
+    },
+    "entry": {
+      "type": "string",
+      "description": "Entry HTML file path relative to base_url (for addons and mini-programs)."
+    },
+    "base_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Base URL for resolving entry and relative asset paths."
+    },
+    "pages": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Additional page paths (for multi-page mini-programs)."
+    },
+    "wasm": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the WASM binary (for plugins and WASM addons)."
+    },
+    "wasm_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 hex digest of the WASM binary for integrity verification."
+    },
+    "segment_size": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "WASM module memory segment size in bytes."
+    },
+    "hooks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/hook" },
+      "description": "Hook registrations for plugins and addons."
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/setting" },
+      "description": "User-configurable settings exposed in the Settings UI."
+    },
+    "mcp_tools": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mcp_tool" },
+      "description": "MCP tool declarations provided by this extension."
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier."
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "description": "Source repository URL."
+    },
+    "keywords": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 32 },
+      "maxItems": 10,
+      "description": "Search keywords for discoverability."
+    },
+    "min_platform_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+",
+      "description": "Minimum aiscouncil platform version required."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "hook": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.:-]*$",
+          "maxLength": 128,
+          "description": "Hook name (e.g. 'chat:before-send', 'message:filter')."
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999,
+          "default": 100,
+          "description": "Execution priority (lower = earlier). Default 100."
+        }
+      },
+      "additionalProperties": false
+    },
+    "setting": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": ["string", "number", "boolean", "select"],
+          "description": "Setting value type."
+        },
+        "default": {
+          "description": "Default value for this setting."
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Display label in Settings UI."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Help text shown below the setting."
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": "string" },
+              "label": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "description": "Options for 'select' type settings."
+        }
+      },
+      "additionalProperties": false
+    },
+    "mcp_tool": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$",
+          "maxLength": 64,
+          "description": "Tool name."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Human-readable description of what this tool does."
+        },
+        "inputSchema": {
+          "type": "object",
+          "description": "JSON Schema for the tool's input parameters."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://aiscouncil.com/schema/package-registry/v1",
+  "version": 2,
+  "updated": "2026-02-10T00:00:00Z",
+  "meta": {
+    "source": "https://github.com/aiscouncil/registry/blob/main/registry/packages.json",
+    "refreshInterval": 86400,
+    "commission": 0.15,
+    "currency": "USD",
+    "verification": {
+      "enabled": true,
+      "tiers": {
+        "quick": { "price": 1900, "maxSize": 102400, "badge": "AI Scanned" },
+        "full": { "price": 4900, "maxSize": 512000, "badge": "AI Verified" },
+        "deep": { "price": 9900, "maxSize": 2097152, "badge": "AI Verified + Reviewed" }
+      },
+      "badgeValidityDays": 365,
+      "dailyCap": 50,
+      "verifyEndpoint": "https://api.aiscouncil.com/v1/verify"
+    }
+  },
+  "packages": []
+}
