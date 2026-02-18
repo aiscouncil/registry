@@ -1,74 +1,96 @@
 # AI Supreme Council — Community Registry
 
-Community-managed model and package registries for [AI Supreme Council](https://aiscouncil.com).
+Community-managed registries and translations for [AI Supreme Council](https://aiscouncil.com).
 
-## Registries
+## What's Here
 
-| File | Purpose | Entries |
-|------|---------|--------|
-| [`models.json`](models.json) | LLM model registry (providers, models, pricing, capabilities) | 50 models, 6 providers |
-| [`packages.json`](packages.json) | Package registry (plugins, addons, mini-programs) | Community submissions |
-| [`manifest-schema.json`](manifest-schema.json) | JSON Schema for manifest v2 validation | — |
+| Path | Purpose |
+|------|---------|
+| [`models.json`](models.json) | LLM model registry — 50 models, 6 providers, pricing, capabilities |
+| [`packages.json`](packages.json) | Package registry — plugins, addons, mini-programs |
+| [`templates.json`](templates.json) | System prompt templates and welcome screens |
+| [`themes.json`](themes.json) | Theme definitions (light/dark CSS custom properties) |
+| [`design-tokens.json`](design-tokens.json) | Design token library |
+| [`manifest-schema.json`](manifest-schema.json) | JSON Schema for manifest v2 validation |
+| [`locale/`](locale/) | Translations (10 languages) |
+| [`validate.py`](validate.py) | Validation script for all registries |
 
-## How It Works
+## Contributing Translations
 
-The app fetches these registries on page load (24h cache). New models and packages appear automatically — no app update required.
+We welcome translations from both humans and AI/LLM agents.
 
-**Fetch order:**
-1. Same-origin `registry/*.json` (for self-hosted deployments)
-2. `raw.githubusercontent.com/aiscouncil/registry/main/*.json` (CDN fallback)
+**Quick start:**
+1. Copy [`locale/en.json`](locale/en.json) to `locale/{lang}.json`
+2. Translate every value (not the keys)
+3. Keep `{template}` variables exactly as-is
+4. Validate: `python3 locale/validate_locale.py locale/{lang}.json`
+5. Submit a PR
 
-## Models
+**Detailed guides:**
+- [Translation Guide](locale/TRANSLATING.md) — rules, examples, character encoding
+- [LLM Translation Task](locale/TRANSLATE_TASK.md) — structured instructions for AI agents
 
-6 providers, 50 models across free and paid tiers:
+**Current translations:**
 
-| Provider | Direct API Models | Via OpenRouter |
-|----------|------------------|----------------|
-| **Anthropic** | Claude Sonnet 4, Opus 4, Haiku 4.5 | + Opus 4.6, Opus 4.5, Sonnet 4.5 |
-| **OpenAI** | GPT-4o, GPT-4o Mini, o3, o3 Mini, o1 | + via OR |
-| **xAI** | Grok 3, Grok 3 Mini, Grok 3 Fast | + Grok 4, 4 Fast, 4.1 Fast |
-| **Google Gemini** | Gemini 2.5 Flash/Pro/Flash-Lite (free) | + Gemini 3 Pro/Flash Preview |
-| **OpenRouter** | 20+ free models (DeepSeek R1, Qwen 3, Llama 3.3, GPT-OSS, etc.) | Paid models from all providers |
-| **Ollama** | Auto-detected local models | — |
+| Language | Code | Status |
+|----------|------|--------|
+| English | `en` | Source |
+| Spanish | `es` | Complete |
+| Chinese (Simplified) | `zh` | Complete |
+| Arabic | `ar` | Complete |
+| French | `fr` | Complete |
+| Portuguese | `pt` | Complete |
+| Japanese | `ja` | Complete |
+| Korean | `ko` | Complete |
+| German | `de` | Complete |
+| Russian | `ru` | Complete |
+| Hindi | `hi` | Needed |
+| Turkish | `tr` | Needed |
+| Ukrainian | `uk` | Needed |
+| Thai | `th` | Needed |
+| Polish | `pl` | Needed |
+| Italian | `it` | Needed |
+| Dutch | `nl` | Needed |
+| Indonesian | `id` | Needed |
+| Vietnamese | `vi` | Needed |
 
-## Packages
-
-Four distribution tiers:
-
-| Tier | Listing | Review | Badge |
-|------|---------|--------|-------|
-| **Direct Install** | Any manifest URL | None | None |
-| **Community** | PR to `packages.json` | `validate.py` | Community |
-| **AI Verified** | Community + paid AI scan | LLM audit | AI Verified |
-| **Verified** | PR + manual review | Human review | Verified |
-
-## Contributing
+## Contributing Models & Packages
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 - Adding models to the registry
 - Publishing plugins, addons, and mini-programs
-- Manifest v2 format and required fields
-- Validation instructions
-
-### Quick Start
+- Manifest v2 format and validation
 
 ```bash
-# Add a model
-# 1. Edit models.json, add your entry to the "models" array
-# 2. Validate
+# Validate models
 python3 validate.py
-# 3. Submit a PR
 
-# Add a package
-# 1. Edit packages.json, add your entry to the "packages" array
-# 2. Validate
+# Validate packages
 python3 validate.py packages
-# 3. Submit a PR
 
-# Validate a manifest file
-python3 validate.py manifest path/to/manifest.json
+# Validate themes
+python3 validate.py themes
+
+# Validate templates
+python3 validate.py templates
+
+# Validate all locale files
+python3 locale/validate_locale.py --all
 ```
+
+## How It Works
+
+The app fetches these registries with a 24h stale-while-revalidate cache:
+
+1. Same-origin `registry/*.json` (primary — bundled with deployment)
+2. `raw.githubusercontent.com/aiscouncil/registry/main/*.json` (GitHub fallback)
+
+New models, translations, and packages appear automatically — no app update required.
+
+## CI
+
+Every PR runs [GitHub Actions](.github/workflows/validate.yml) that validates all registries and locale files. PRs with validation errors cannot merge.
 
 ## License
 
-Registry data is open for community use. See [aiscouncil.com](https://aiscouncil.com) for platform terms.
+Registry data is MIT licensed. Translations are community-contributed under CC0.

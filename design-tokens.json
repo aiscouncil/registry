@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "description": "Shared design tokens for aiscouncil.com and www.aiscouncil.com. Single source of truth.",
+  "source": "https://github.com/aiscouncil/registry/blob/main/design-tokens.json",
+  "light": {
+    "--accent": "#7c3aed",
+    "--accent-hover": "#6d28d9",
+    "--accent-subtle": "#a78bfa",
+    "--link": "#7c3aed",
+    "--outline": "#7c3aed",
+    "--cta": "#059669",
+    "--cta-hover": "#047857",
+    "--success": "#28a745",
+    "--danger": "#dc3545",
+    "--warning": "#d29922",
+    "--user-bubble": "#7c3aed",
+    "--user-text": "#fff",
+    "--gradient-hero": "linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)"
+  },
+  "dark": {
+    "--accent": "#8b5cf6",
+    "--accent-hover": "#6366f1",
+    "--accent-subtle": "#a78bfa",
+    "--link": "#a78bfa",
+    "--outline": "#8b5cf6",
+    "--cta": "#10b981",
+    "--cta-hover": "#059669",
+    "--success": "#3fb950",
+    "--danger": "#f85149",
+    "--warning": "#d29922",
+    "--user-bubble": "#3b1f7a",
+    "--user-text": "#e4e4e7",
+    "--gradient-hero": "linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)"
+  }
+}

@@ -1,18 +1,25 @@
 {
   "$schema": "https://aiscouncil.com/schema/model-registry/v1",
-  "version": 5,
-  "updated": "2026-02-11T00:00:00Z",
-
+  "version": 14,
+  "updated": "2026-02-15T12:00:00Z",
   "meta": {
     "source": "https://github.com/aiscouncil/registry/blob/main/models.json",
     "contributing": "https://github.com/aiscouncil/registry/blob/main/CONTRIBUTING.md",
     "refreshInterval": 86400,
-    "description": "Community-managed model registry for AI Supreme Council. Submit PRs to add models."
+    "description": "Community-managed model registry for AI Supreme Council. Submit PRs to add models.",
+    "leaderboard": {
+      "source": "https://arena.ai/leaderboard",
+      "updated": "2026-02-15",
+      "description": "Arena ELO scores for model ranking. Community-maintained — submit PRs to update when scores change."
+    }
   },
-
   "providers": {
     "anthropic": {
       "name": "Anthropic",
+      "description": "Claude models",
+      "keyPlaceholder": "sk-ant-...",
+      "order": 1,
+      "arenaScore": 1506,
       "baseUrl": "https://api.anthropic.com/v1/messages",
       "authType": "header",
       "authHeader": "x-api-key",
@@ -21,32 +28,74 @@
         "anthropic-dangerous-direct-browser-access": "true"
       },
       "keyUrl": "https://console.anthropic.com/settings/keys",
-      "format": "anthropic"
+      "format": "anthropic",
+      "features": [
+        "vision",
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
     },
     "openai": {
       "name": "OpenAI",
+      "description": "GPT models",
+      "keyPlaceholder": "sk-...",
+      "order": 4,
+      "arenaScore": 1459,
       "baseUrl": "https://api.openai.com/v1/chat/completions",
       "authType": "bearer",
       "keyUrl": "https://platform.openai.com/api-keys",
-      "format": "openai"
+      "format": "openai",
+      "features": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode"
+      ],
+      "freeTier": null
     },
     "xai": {
       "name": "xAI",
+      "description": "Grok models",
+      "keyPlaceholder": "xai-...",
+      "order": 3,
+      "arenaScore": 1475,
       "baseUrl": "https://api.x.ai/v1/chat/completions",
       "authType": "bearer",
       "keyUrl": "https://console.x.ai",
-      "format": "openai"
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "freeTier": null
     },
     "gemini": {
       "name": "Google Gemini",
+      "description": "Gemini models — free Flash tier, no credit card",
+      "keyPlaceholder": "AIza...",
+      "order": 2,
+      "arenaScore": 1486,
       "baseUrl": "https://generativelanguage.googleapis.com/v1beta",
       "authType": "query",
       "authParam": "key",
       "keyUrl": "https://aistudio.google.com/apikey",
-      "format": "gemini"
+      "format": "gemini",
+      "features": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "freeTier": "Free tier — no credit card required"
     },
     "openrouter": {
       "name": "OpenRouter",
+      "description": "300+ models, including free tier",
+      "keyPlaceholder": "sk-or-...",
+      "order": 5,
+      "arenaScore": 1449,
       "baseUrl": "https://openrouter.ai/api/v1/chat/completions",
       "authType": "bearer",
       "extraHeaders": {
@@ -54,18 +103,242 @@
         "X-Title": "aiscouncil"
       },
       "keyUrl": "https://openrouter.ai/keys",
-      "format": "openai"
+      "format": "openai",
+      "features": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "freeTier": "Free models available"
+    },
+    "deepseek": {
+      "name": "DeepSeek",
+      "description": "DeepSeek reasoning & general models",
+      "keyPlaceholder": "sk-...",
+      "order": 7,
+      "arenaScore": 1423,
+      "baseUrl": "https://api.deepseek.com/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://platform.deepseek.com/api_keys",
+      "format": "openai",
+      "features": [
+        "reasoning",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "mistral": {
+      "name": "Mistral",
+      "description": "Mistral AI models — Large, Small, Codestral",
+      "keyPlaceholder": "...",
+      "order": 8,
+      "arenaScore": 1416,
+      "baseUrl": "https://api.mistral.ai/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://console.mistral.ai/api-keys",
+      "format": "openai",
+      "features": [
+        "vision",
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "qwen": {
+      "name": "Qwen",
+      "description": "Alibaba Qwen models via DashScope",
+      "keyPlaceholder": "sk-...",
+      "order": 9,
+      "arenaScore": 1434,
+      "baseUrl": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://dashscope.console.aliyun.com/apiKey",
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "zhipu": {
+      "name": "Zhipu AI (Z.AI)",
+      "description": "GLM models by Zhipu — reasoning + tools",
+      "keyPlaceholder": "...",
+      "order": 10,
+      "arenaScore": 1449,
+      "baseUrl": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://open.bigmodel.cn/usercenter/apikeys",
+      "format": "openai",
+      "features": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "moonshot": {
+      "name": "Moonshot (Kimi)",
+      "description": "Kimi models — long context specialist",
+      "keyPlaceholder": "sk-...",
+      "order": 11,
+      "arenaScore": 1310,
+      "baseUrl": "https://api.moonshot.cn/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://platform.moonshot.cn/console/api-keys",
+      "format": "openai",
+      "features": [
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "groq": {
+      "name": "Groq",
+      "description": "Ultra-fast LPU inference — free tier available",
+      "keyPlaceholder": "gsk_...",
+      "order": 6,
+      "arenaScore": 1320,
+      "baseUrl": "https://api.groq.com/openai/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://console.groq.com/keys",
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "freeTier": "Free tier — rate limited"
+    },
+    "cohere": {
+      "name": "Cohere",
+      "description": "Command R+ — enterprise RAG and reasoning",
+      "keyPlaceholder": "...",
+      "order": 13,
+      "arenaScore": 1353,
+      "baseUrl": "https://api.cohere.com/compatibility/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://dashboard.cohere.com/api-keys",
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "ai21": {
+      "name": "AI21",
+      "description": "Jamba models — 256K context, Mamba architecture",
+      "keyPlaceholder": "...",
+      "order": 16,
+      "arenaScore": 1289,
+      "baseUrl": "https://api.ai21.com/studio/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://studio.ai21.com/account/api-key",
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "perplexity": {
+      "name": "Perplexity",
+      "description": "Search-augmented AI — answers with citations",
+      "keyPlaceholder": "pplx-...",
+      "order": 12,
+      "arenaScore": 1400,
+      "baseUrl": "https://api.perplexity.ai/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://www.perplexity.ai/settings/api",
+      "format": "openai",
+      "features": [
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "together": {
+      "name": "Together AI",
+      "description": "100+ open models — fast inference",
+      "keyPlaceholder": "...",
+      "order": 14,
+      "arenaScore": 1336,
+      "baseUrl": "https://api.together.xyz/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://api.together.xyz/settings/api-keys",
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "fireworks": {
+      "name": "Fireworks AI",
+      "description": "Fast open model inference — low latency",
+      "keyPlaceholder": "fw_...",
+      "order": 15,
+      "arenaScore": 1336,
+      "baseUrl": "https://api.fireworks.ai/inference/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://fireworks.ai/account/api-keys",
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
+    },
+    "meta": {
+      "name": "Meta Llama",
+      "description": "Official Llama API by Meta",
+      "keyPlaceholder": "...",
+      "order": 17,
+      "arenaScore": 1336,
+      "baseUrl": "https://api.llama.com/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://llama.com/docs/api",
+      "format": "openai",
+      "features": [
+        "tools",
+        "streaming"
+      ],
+      "freeTier": null
     },
     "ollama": {
       "name": "Ollama (local)",
+      "description": "Local models — no API key needed",
+      "endpointPlaceholder": "http://localhost:11434",
+      "order": 6,
       "baseUrl": "http://localhost:11434/v1/chat/completions",
       "authType": "none",
       "format": "openai",
       "local": true,
-      "detectUrl": "http://localhost:11434/api/tags"
+      "detectUrl": "http://localhost:11434/api/tags",
+      "features": [
+        "streaming"
+      ],
+      "freeTier": "Free — runs locally"
+    },
+    "cloudflare": {
+      "name": "Cloudflare Workers AI",
+      "description": "Edge AI inference — 50+ models, free tier",
+      "keyPlaceholder": "Bearer token...",
+      "order": 18,
+      "baseUrl": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/v1/chat/completions",
+      "authType": "bearer",
+      "keyUrl": "https://dash.cloudflare.com/profile/api-tokens",
+      "format": "openai",
+      "features": [
+        "vision",
+        "streaming",
+        "tools"
+      ],
+      "freeTier": "Free tier — 10K neurons/day",
+      "accountIdRequired": true,
+      "accountIdPlaceholder": "Account ID (from dashboard)"
     }
   },
-
   "tiers": {
     "free": {
       "label": "Free",
@@ -81,63 +354,4369 @@
       "description": "Volume pricing, SLA, dedicated capacity"
     }
   },
-
   "models": [
-
-    {"id":"claude-sonnet-4-20250514","name":"Claude Sonnet 4","provider":"anthropic","context":200000,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["vision","tools","streaming"],"tier":"paid","default":true},
-    {"id":"claude-opus-4-0520","name":"Claude Opus 4","provider":"anthropic","context":200000,"maxOutput":8192,"pricing":{"input":15.0,"output":75.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-    {"id":"claude-haiku-4-5-20251001","name":"Claude Haiku 4.5","provider":"anthropic","context":200000,"maxOutput":8192,"pricing":{"input":0.80,"output":4.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-
-    {"id":"gpt-4o","name":"GPT-4o","provider":"openai","context":128000,"maxOutput":16384,"pricing":{"input":2.50,"output":10.0},"capabilities":["vision","tools","streaming","json_mode"],"tier":"paid","default":true},
-    {"id":"gpt-4o-mini","name":"GPT-4o Mini","provider":"openai","context":128000,"maxOutput":16384,"pricing":{"input":0.15,"output":0.60},"capabilities":["vision","tools","streaming","json_mode"],"tier":"paid"},
-    {"id":"o3","name":"o3","provider":"openai","context":200000,"maxOutput":100000,"pricing":{"input":2.0,"output":8.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-    {"id":"o3-mini","name":"o3 Mini","provider":"openai","context":200000,"maxOutput":100000,"pricing":{"input":1.10,"output":4.40},"capabilities":["tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-    {"id":"o1","name":"o1","provider":"openai","context":200000,"maxOutput":100000,"pricing":{"input":15.0,"output":60.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-
-    {"id":"grok-3","name":"Grok 3","provider":"xai","context":131072,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["tools","streaming"],"tier":"paid","default":true},
-    {"id":"grok-3-mini","name":"Grok 3 Mini","provider":"xai","context":131072,"maxOutput":8192,"pricing":{"input":0.30,"output":0.50},"capabilities":["tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-    {"id":"grok-3-fast","name":"Grok 3 Fast","provider":"xai","context":131072,"maxOutput":8192,"pricing":{"input":5.0,"output":25.0},"capabilities":["tools","streaming"],"tier":"paid"},
-
-    {"id":"gemini-2.5-flash","name":"Gemini 2.5 Flash","provider":"gemini","context":1048576,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming"],"tier":"free","default":true,"rateLimit":"10 RPM free tier"},
-    {"id":"gemini-2.5-pro","name":"Gemini 2.5 Pro","provider":"gemini","context":1048576,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"free","reasoning":true,"rateLimit":"5 RPM free tier"},
-    {"id":"gemini-2.5-flash-lite","name":"Gemini 2.5 Flash-Lite","provider":"gemini","context":1048576,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","streaming"],"tier":"free","rateLimit":"30 RPM free tier"},
-
-    {"id":"openrouter/aurora-alpha","name":"Aurora Alpha (free)","provider":"openrouter","context":128000,"maxOutput":50000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free","reasoning":true},
-    {"id":"openrouter/pony-alpha","name":"Pony Alpha (free)","provider":"openrouter","context":200000,"maxOutput":131000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free","reasoning":true},
-    {"id":"qwen/qwen3-coder:free","name":"Qwen 3 Coder 480B (free)","provider":"openrouter","context":262000,"maxOutput":262000,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
-    {"id":"qwen/qwen3-235b-a22b:free","name":"Qwen 3 235B (free)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
-    {"id":"qwen/qwen3-next-80b-a3b-instruct:free","name":"Qwen 3 Next 80B (free)","provider":"openrouter","context":262144,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
-    {"id":"deepseek/deepseek-r1-0528:free","name":"DeepSeek R1 (free)","provider":"openrouter","context":163840,"maxOutput":163840,"pricing":{"input":0,"output":0},"capabilities":["reasoning","streaming"],"tier":"free","reasoning":true},
-    {"id":"meta-llama/llama-3.3-70b-instruct:free","name":"Llama 3.3 70B (free)","provider":"openrouter","context":128000,"maxOutput":128000,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free","default":true},
-    {"id":"openai/gpt-oss-120b:free","name":"GPT-OSS 120B (free)","provider":"openrouter","context":131072,"maxOutput":131072,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
-    {"id":"openai/gpt-oss-20b:free","name":"GPT-OSS 20B (free)","provider":"openrouter","context":131072,"maxOutput":131072,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
-    {"id":"google/gemma-3-27b-it:free","name":"Gemma 3 27B (free)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming"],"tier":"free"},
-    {"id":"mistralai/mistral-small-3.1-24b-instruct:free","name":"Mistral Small 3.1 (free)","provider":"openrouter","context":128000,"maxOutput":4096,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","streaming"],"tier":"free"},
-    {"id":"nvidia/nemotron-nano-12b-v2-vl:free","name":"Nemotron Nano 12B VL (free)","provider":"openrouter","context":128000,"maxOutput":128000,"pricing":{"input":0,"output":0},"capabilities":["vision","tools","reasoning","streaming"],"tier":"free"},
-    {"id":"nvidia/nemotron-3-nano-30b-a3b:free","name":"Nemotron 3 Nano 30B (free)","provider":"openrouter","context":256000,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
-    {"id":"stepfun/step-3.5-flash:free","name":"Step 3.5 Flash (free)","provider":"openrouter","context":256000,"maxOutput":256000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
-    {"id":"upstage/solar-pro-3:free","name":"Solar Pro 3 (free)","provider":"openrouter","context":128000,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
-    {"id":"arcee-ai/trinity-large-preview:free","name":"Trinity Large 400B (free)","provider":"openrouter","context":131000,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","streaming"],"tier":"free"},
-    {"id":"arcee-ai/trinity-mini:free","name":"Trinity Mini 26B (free)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
-    {"id":"z-ai/glm-4.5-air:free","name":"GLM 4.5 Air (free)","provider":"openrouter","context":131072,"maxOutput":96000,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free"},
-    {"id":"nousresearch/hermes-3-llama-3.1-405b:free","name":"Hermes 3 405B (free)","provider":"openrouter","context":131072,"maxOutput":4096,"pricing":{"input":0,"output":0},"capabilities":["streaming"],"tier":"free"},
-    {"id":"tngtech/tng-r1t-chimera:free","name":"R1T Chimera (free)","provider":"openrouter","context":163840,"maxOutput":65536,"pricing":{"input":0,"output":0},"capabilities":["tools","reasoning","streaming"],"tier":"free","reasoning":true},
-
-    {"id":"anthropic/claude-sonnet-4","name":"Claude Sonnet 4 (via OR)","provider":"openrouter","context":200000,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-    {"id":"anthropic/claude-opus-4","name":"Claude Opus 4 (via OR)","provider":"openrouter","context":200000,"maxOutput":8192,"pricing":{"input":15.0,"output":75.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-    {"id":"anthropic/claude-sonnet-4.5","name":"Claude Sonnet 4.5 (via OR)","provider":"openrouter","context":1000000,"maxOutput":16384,"pricing":{"input":3.0,"output":15.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-    {"id":"anthropic/claude-opus-4.5","name":"Claude Opus 4.5 (via OR)","provider":"openrouter","context":200000,"maxOutput":8192,"pricing":{"input":5.0,"output":25.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-    {"id":"anthropic/claude-opus-4.6","name":"Claude Opus 4.6 (via OR)","provider":"openrouter","context":1000000,"maxOutput":16384,"pricing":{"input":5.0,"output":25.0},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-    {"id":"openai/gpt-4o","name":"GPT-4o (via OR)","provider":"openrouter","context":128000,"maxOutput":16384,"pricing":{"input":2.50,"output":10.0},"capabilities":["vision","tools","streaming","json_mode"],"tier":"paid"},
-    {"id":"openai/o3","name":"o3 (via OR)","provider":"openrouter","context":200000,"maxOutput":100000,"pricing":{"input":2.0,"output":8.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-    {"id":"openai/o3-mini","name":"o3 Mini (via OR)","provider":"openrouter","context":200000,"maxOutput":100000,"pricing":{"input":1.10,"output":4.40},"capabilities":["tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-    {"id":"x-ai/grok-3","name":"Grok 3 (via OR)","provider":"openrouter","context":131072,"maxOutput":8192,"pricing":{"input":3.0,"output":15.0},"capabilities":["tools","streaming"],"tier":"paid"},
-    {"id":"x-ai/grok-4","name":"Grok 4 (via OR)","provider":"openrouter","context":256000,"maxOutput":16384,"pricing":{"input":3.0,"output":15.0},"capabilities":["tools","streaming"],"tier":"paid"},
-    {"id":"x-ai/grok-4-fast","name":"Grok 4 Fast (via OR)","provider":"openrouter","context":2000000,"maxOutput":16384,"pricing":{"input":0.20,"output":0.50},"capabilities":["tools","streaming"],"tier":"paid"},
-    {"id":"x-ai/grok-4.1-fast","name":"Grok 4.1 Fast (via OR)","provider":"openrouter","context":2000000,"maxOutput":16384,"pricing":{"input":0.20,"output":0.50},"capabilities":["tools","streaming"],"tier":"paid"},
-    {"id":"google/gemini-2.5-flash","name":"Gemini 2.5 Flash (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":0.30,"output":2.50},"capabilities":["vision","tools","streaming"],"tier":"paid"},
-    {"id":"google/gemini-2.5-pro","name":"Gemini 2.5 Pro (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":1.25,"output":10.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-    {"id":"google/gemini-3-pro-preview","name":"Gemini 3 Pro Preview (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":2.0,"output":12.0},"capabilities":["vision","tools","streaming","reasoning"],"tier":"paid","reasoning":true},
-    {"id":"google/gemini-3-flash-preview","name":"Gemini 3 Flash Preview (via OR)","provider":"openrouter","context":1048576,"maxOutput":8192,"pricing":{"input":0.50,"output":3.0},"capabilities":["vision","tools","streaming"],"tier":"paid"}
+    {
+      "id": "claude-opus-4-6",
+      "name": "Claude Opus 4.6",
+      "provider": "anthropic",
+      "context": 1000000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 5.0,
+        "output": 25.0,
+        "cachedInput": 0.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "claude-sonnet-4-5-20250929",
+      "name": "Claude Sonnet 4.5",
+      "provider": "anthropic",
+      "context": 1000000,
+      "maxOutput": 64000,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0,
+        "cachedInput": 0.3
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "claude-sonnet-4-20250514",
+      "name": "Claude Sonnet 4",
+      "provider": "anthropic",
+      "context": 200000,
+      "maxOutput": 64000,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0,
+        "cachedInput": 0.3
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "claude-opus-4-0520",
+      "name": "Claude Opus 4",
+      "provider": "anthropic",
+      "context": 200000,
+      "maxOutput": 32000,
+      "pricing": {
+        "input": 15.0,
+        "output": 75.0,
+        "cachedInput": 1.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "claude-haiku-4-5-20251001",
+      "name": "Claude Haiku 4.5",
+      "provider": "anthropic",
+      "context": 200000,
+      "maxOutput": 64000,
+      "pricing": {
+        "input": 0.8,
+        "output": 4.0,
+        "cachedInput": 0.08
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "gpt-4o",
+      "name": "GPT-4o",
+      "provider": "openai",
+      "context": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 2.5,
+        "output": 10.0,
+        "cachedInput": 1.25
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "gpt-4o-mini",
+      "name": "GPT-4o Mini",
+      "provider": "openai",
+      "context": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.15,
+        "output": 0.6,
+        "cachedInput": 0.075
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "o3",
+      "name": "o3",
+      "provider": "openai",
+      "context": 200000,
+      "maxOutput": 100000,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0,
+        "cachedInput": 1.0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "o3-mini",
+      "name": "o3 Mini",
+      "provider": "openai",
+      "context": 200000,
+      "maxOutput": 100000,
+      "pricing": {
+        "input": 1.1,
+        "output": 4.4,
+        "cachedInput": 0.55
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "o1",
+      "name": "o1",
+      "provider": "openai",
+      "context": 200000,
+      "maxOutput": 100000,
+      "pricing": {
+        "input": 15.0,
+        "output": 60.0,
+        "cachedInput": 7.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "gpt-4.1",
+      "name": "GPT-4.1",
+      "provider": "openai",
+      "context": 1000000,
+      "maxOutput": 32768,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0,
+        "cachedInput": 0.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "gpt-4.1-mini",
+      "name": "GPT-4.1 Mini",
+      "provider": "openai",
+      "context": 1000000,
+      "maxOutput": 32768,
+      "pricing": {
+        "input": 0.4,
+        "output": 1.6,
+        "cachedInput": 0.1
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "gpt-4.1-nano",
+      "name": "GPT-4.1 Nano",
+      "provider": "openai",
+      "context": 1000000,
+      "maxOutput": 32768,
+      "pricing": {
+        "input": 0.1,
+        "output": 0.4,
+        "cachedInput": 0.025
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "o4-mini",
+      "name": "o4 Mini",
+      "provider": "openai",
+      "context": 200000,
+      "maxOutput": 100000,
+      "pricing": {
+        "input": 1.1,
+        "output": 4.4,
+        "cachedInput": 0.275
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "gpt-5",
+      "name": "GPT-5",
+      "provider": "openai",
+      "context": 400000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 1.25,
+        "output": 10.0,
+        "cachedInput": 0.125
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "gpt-5-mini",
+      "name": "GPT-5 Mini",
+      "provider": "openai",
+      "context": 400000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 0.25,
+        "output": 2.0,
+        "cachedInput": 0.025
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "gpt-5-nano",
+      "name": "GPT-5 Nano",
+      "provider": "openai",
+      "context": 400000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 0.05,
+        "output": 0.4,
+        "cachedInput": 0.005
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "gpt-5.1",
+      "name": "GPT-5.1",
+      "provider": "openai",
+      "context": 400000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 1.25,
+        "output": 10.0,
+        "cachedInput": 0.125
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "gpt-5.2",
+      "name": "GPT-5.2",
+      "provider": "openai",
+      "context": 400000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 1.75,
+        "output": 14.0,
+        "cachedInput": 0.175
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "grok-3",
+      "name": "Grok 3",
+      "provider": "xai",
+      "context": 131072,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "grok-3-mini",
+      "name": "Grok 3 Mini",
+      "provider": "xai",
+      "context": 131072,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 0.3,
+        "output": 0.5
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "grok-4-0709",
+      "name": "Grok 4",
+      "provider": "xai",
+      "context": 256000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "grok-4-fast-reasoning",
+      "name": "Grok 4 Fast",
+      "provider": "xai",
+      "context": 2000000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.5,
+        "cachedInput": 0.05
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "grok-4-1-fast-reasoning",
+      "name": "Grok 4.1 Fast",
+      "provider": "xai",
+      "context": 2000000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.5,
+        "cachedInput": 0.05
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true,
+      "reasoning": true
+    },
+    {
+      "id": "grok-code-fast-1",
+      "name": "Grok Code Fast",
+      "provider": "xai",
+      "context": 256000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.2,
+        "output": 1.5,
+        "cachedInput": 0.02
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "gemini-2.5-flash",
+      "name": "Gemini 2.5 Flash",
+      "provider": "gemini",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "rateLimit": "10 RPM free tier"
+    },
+    {
+      "id": "gemini-2.5-pro",
+      "name": "Gemini 2.5 Pro",
+      "provider": "gemini",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 1.25,
+        "output": 10.0,
+        "cachedInput": 0.315
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "gemini-2.5-flash-lite",
+      "name": "Gemini 2.5 Flash-Lite",
+      "provider": "gemini",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "rateLimit": "30 RPM free tier"
+    },
+    {
+      "id": "gemini-3-pro-preview",
+      "name": "Gemini 3 Pro Preview",
+      "provider": "gemini",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 2.0,
+        "output": 12.0,
+        "cachedInput": 0.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true,
+      "reasoning": true
+    },
+    {
+      "id": "gemini-3-flash-preview",
+      "name": "Gemini 3 Flash Preview",
+      "provider": "gemini",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "default": true,
+      "rateLimit": "10 RPM free tier"
+    },
+    {
+      "id": "openrouter/aurora-alpha",
+      "name": "Aurora Alpha (free)",
+      "provider": "openrouter",
+      "context": 128000,
+      "maxOutput": 50000,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free",
+      "reasoning": true
+    },
+    {
+      "id": "qwen/qwen3-coder:free",
+      "name": "Qwen 3 Coder 480B (free)",
+      "provider": "openrouter",
+      "context": 262000,
+      "maxOutput": 262000,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "qwen/qwen3-next-80b-a3b-instruct:free",
+      "name": "Qwen 3 Next 80B (free)",
+      "provider": "openrouter",
+      "context": 262144,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "deepseek/deepseek-r1-0528:free",
+      "name": "DeepSeek R1 (free)",
+      "provider": "openrouter",
+      "context": 163840,
+      "maxOutput": 163840,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "reasoning": true
+    },
+    {
+      "id": "meta-llama/llama-3.3-70b-instruct:free",
+      "name": "Llama 3.3 70B (free)",
+      "provider": "openrouter",
+      "context": 128000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "default": true
+    },
+    {
+      "id": "openai/gpt-oss-120b:free",
+      "name": "GPT-OSS 120B (free)",
+      "provider": "openrouter",
+      "context": 131072,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "openai/gpt-oss-20b:free",
+      "name": "GPT-OSS 20B (free)",
+      "provider": "openrouter",
+      "context": 131072,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "google/gemma-3-27b-it:free",
+      "name": "Gemma 3 27B (free)",
+      "provider": "openrouter",
+      "context": 131072,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "mistralai/mistral-small-3.1-24b-instruct:free",
+      "name": "Mistral Small 3.1 (free)",
+      "provider": "openrouter",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "nvidia/nemotron-nano-12b-v2-vl:free",
+      "name": "Nemotron Nano 12B VL (free)",
+      "provider": "openrouter",
+      "context": 128000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "nvidia/nemotron-3-nano-30b-a3b:free",
+      "name": "Nemotron 3 Nano 30B (free)",
+      "provider": "openrouter",
+      "context": 256000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "stepfun/step-3.5-flash:free",
+      "name": "Step 3.5 Flash (free)",
+      "provider": "openrouter",
+      "context": 256000,
+      "maxOutput": 256000,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "upstage/solar-pro-3:free",
+      "name": "Solar Pro 3 (free)",
+      "provider": "openrouter",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "arcee-ai/trinity-large-preview:free",
+      "name": "Trinity Large 400B (free)",
+      "provider": "openrouter",
+      "context": 131000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "arcee-ai/trinity-mini:free",
+      "name": "Trinity Mini 26B (free)",
+      "provider": "openrouter",
+      "context": 131072,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "z-ai/glm-4.5-air:free",
+      "name": "GLM 4.5 Air (free)",
+      "provider": "openrouter",
+      "context": 131072,
+      "maxOutput": 96000,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "nousresearch/hermes-3-llama-3.1-405b:free",
+      "name": "Hermes 3 405B (free)",
+      "provider": "openrouter",
+      "context": 131072,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "google/gemma-3-12b-it:free",
+      "name": "Gemma 3 12B (free)",
+      "provider": "openrouter",
+      "context": 32768,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "anthropic/claude-sonnet-4",
+      "name": "Claude Sonnet 4 (via OR)",
+      "provider": "openrouter",
+      "context": 200000,
+      "maxOutput": 64000,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0,
+        "cachedInput": 0.3
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "anthropic/claude-opus-4",
+      "name": "Claude Opus 4 (via OR)",
+      "provider": "openrouter",
+      "context": 200000,
+      "maxOutput": 64000,
+      "pricing": {
+        "input": 15.0,
+        "output": 75.0,
+        "cachedInput": 1.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "anthropic/claude-sonnet-4.5",
+      "name": "Claude Sonnet 4.5 (via OR)",
+      "provider": "openrouter",
+      "context": 1000000,
+      "maxOutput": 64000,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0,
+        "cachedInput": 0.3
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "anthropic/claude-opus-4.5",
+      "name": "Claude Opus 4.5 (via OR)",
+      "provider": "openrouter",
+      "context": 200000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 5.0,
+        "output": 25.0,
+        "cachedInput": 0.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "anthropic/claude-opus-4.6",
+      "name": "Claude Opus 4.6 (via OR)",
+      "provider": "openrouter",
+      "context": 1000000,
+      "maxOutput": 128000,
+      "pricing": {
+        "input": 5.0,
+        "output": 25.0,
+        "cachedInput": 0.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "openai/gpt-4o",
+      "name": "GPT-4o (via OR)",
+      "provider": "openrouter",
+      "context": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 2.5,
+        "output": 10.0,
+        "cachedInput": 1.25
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "json_mode",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "openai/o3",
+      "name": "o3 (via OR)",
+      "provider": "openrouter",
+      "context": 200000,
+      "maxOutput": 100000,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0,
+        "cachedInput": 1.0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "openai/o3-mini",
+      "name": "o3 Mini (via OR)",
+      "provider": "openrouter",
+      "context": 200000,
+      "maxOutput": 100000,
+      "pricing": {
+        "input": 1.1,
+        "output": 4.4,
+        "cachedInput": 0.55
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "x-ai/grok-3",
+      "name": "Grok 3 (via OR)",
+      "provider": "openrouter",
+      "context": 131072,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "x-ai/grok-4",
+      "name": "Grok 4 (via OR)",
+      "provider": "openrouter",
+      "context": 256000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "x-ai/grok-4-fast",
+      "name": "Grok 4 Fast (via OR)",
+      "provider": "openrouter",
+      "context": 2000000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.5,
+        "cachedInput": 0.05
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "x-ai/grok-4.1-fast",
+      "name": "Grok 4.1 Fast (via OR)",
+      "provider": "openrouter",
+      "context": 2000000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.5,
+        "cachedInput": 0.05
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "x-ai/grok-code-fast-1",
+      "name": "Grok Code Fast (via OR)",
+      "provider": "openrouter",
+      "context": 256000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.2,
+        "output": 1.5,
+        "cachedInput": 0.02
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "google/gemini-2.5-flash",
+      "name": "Gemini 2.5 Flash (via OR)",
+      "provider": "openrouter",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0.3,
+        "output": 2.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "google/gemini-2.5-pro",
+      "name": "Gemini 2.5 Pro (via OR)",
+      "provider": "openrouter",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 1.25,
+        "output": 10.0,
+        "cachedInput": 0.315
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "google/gemini-3-pro-preview",
+      "name": "Gemini 3 Pro Preview (via OR)",
+      "provider": "openrouter",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 2.0,
+        "output": 12.0,
+        "cachedInput": 0.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "reasoning",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "google/gemini-3-flash-preview",
+      "name": "Gemini 3 Flash Preview (via OR)",
+      "provider": "openrouter",
+      "context": 1048576,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0.5,
+        "output": 3.0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "z-ai/glm-5",
+      "name": "GLM-5 745B (via OR)",
+      "provider": "openrouter",
+      "context": 202752,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 0.75,
+        "output": 2.55
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "z-ai/glm-4.7",
+      "name": "GLM 4.7 (via OR)",
+      "provider": "openrouter",
+      "context": 202752,
+      "maxOutput": 65535,
+      "pricing": {
+        "input": 0.4,
+        "output": 1.5
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "z-ai/glm-4.7-flash",
+      "name": "GLM 4.7 Flash (via OR)",
+      "provider": "openrouter",
+      "context": 202752,
+      "maxOutput": 65535,
+      "pricing": {
+        "input": 0.06,
+        "output": 0.4
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "z-ai/glm-4.6",
+      "name": "GLM 4.6 (via OR)",
+      "provider": "openrouter",
+      "context": 202752,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0.35,
+        "output": 1.5
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "deepseek-chat",
+      "name": "DeepSeek V3.2",
+      "provider": "deepseek",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.28,
+        "output": 0.42,
+        "cachedInput": 0.028
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "deepseek-reasoner",
+      "name": "DeepSeek V3.2 Reasoner",
+      "provider": "deepseek",
+      "context": 128000,
+      "maxOutput": 64000,
+      "pricing": {
+        "input": 0.28,
+        "output": 0.42,
+        "cachedInput": 0.028
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "deepseek-r1-0528",
+      "name": "DeepSeek R1 0528",
+      "provider": "deepseek",
+      "context": 65536,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.55,
+        "output": 2.19,
+        "cachedInput": 0.14
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "mistral-large-latest",
+      "name": "Mistral Large 3",
+      "provider": "mistral",
+      "context": 256000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.5,
+        "output": 1.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "mistral-small-latest",
+      "name": "Mistral Small",
+      "provider": "mistral",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.1,
+        "output": 0.3
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "codestral-latest",
+      "name": "Codestral",
+      "provider": "mistral",
+      "context": 256000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.3,
+        "output": 0.9
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "pixtral-large-latest",
+      "name": "Pixtral Large",
+      "provider": "mistral",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 2.0,
+        "output": 6.0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "mistral-medium-3",
+      "name": "Mistral Medium 3",
+      "provider": "mistral",
+      "context": 131000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.4,
+        "output": 2.0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "mistral-saba-latest",
+      "name": "Mistral Saba",
+      "provider": "mistral",
+      "context": 32000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.6
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "devstral-small-latest",
+      "name": "Devstral Small",
+      "provider": "mistral",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.1,
+        "output": 0.3
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "devstral-2-latest",
+      "name": "Devstral 2",
+      "provider": "mistral",
+      "context": 256000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.4,
+        "output": 2.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "qwen-max",
+      "name": "Qwen Max",
+      "provider": "qwen",
+      "context": 32768,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 1.6,
+        "output": 6.4
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "qwen-plus",
+      "name": "Qwen Plus",
+      "provider": "qwen",
+      "context": 131072,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.4,
+        "output": 1.2
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "qwen-turbo",
+      "name": "Qwen Turbo",
+      "provider": "qwen",
+      "context": 1000000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.05,
+        "output": 0.2
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "qwen3-max",
+      "name": "Qwen3 Max",
+      "provider": "qwen",
+      "context": 262144,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 1.2,
+        "output": 6.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "qwen3-coder",
+      "name": "Qwen3 Coder",
+      "provider": "qwen",
+      "context": 262144,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0.22,
+        "output": 1.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "qwen3-coder-next",
+      "name": "Qwen3 Coder Next",
+      "provider": "qwen",
+      "context": 262144,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0.07,
+        "output": 0.3
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "glm-5",
+      "name": "GLM-5",
+      "provider": "zhipu",
+      "context": 202752,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 1.0,
+        "output": 3.2
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true,
+      "reasoning": true
+    },
+    {
+      "id": "glm-5-code",
+      "name": "GLM-5 Code",
+      "provider": "zhipu",
+      "context": 202752,
+      "maxOutput": 131072,
+      "pricing": {
+        "input": 1.2,
+        "output": 5.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "glm-4.7",
+      "name": "GLM 4.7",
+      "provider": "zhipu",
+      "context": 205000,
+      "maxOutput": 65535,
+      "pricing": {
+        "input": 0.4,
+        "output": 1.5
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "glm-4.7-flash",
+      "name": "GLM 4.7 Flash",
+      "provider": "zhipu",
+      "context": 205000,
+      "maxOutput": 65535,
+      "pricing": {
+        "input": 0.06,
+        "output": 0.4
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "glm-4.6",
+      "name": "GLM 4.6",
+      "provider": "zhipu",
+      "context": 205000,
+      "maxOutput": 65536,
+      "pricing": {
+        "input": 0.35,
+        "output": 1.5
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "glm-4-plus",
+      "name": "GLM-4 Plus",
+      "provider": "zhipu",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.7,
+        "output": 0.7
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "glm-4-flash",
+      "name": "GLM-4 Flash (free)",
+      "provider": "zhipu",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "moonshot-v1-128k",
+      "name": "Moonshot v1 128K",
+      "provider": "moonshot",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.84,
+        "output": 0.84
+      },
+      "capabilities": [
+        "streaming"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "moonshot-v1-32k",
+      "name": "Moonshot v1 32K",
+      "provider": "moonshot",
+      "context": 32768,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.34,
+        "output": 0.34
+      },
+      "capabilities": [
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "llama-3.3-70b-versatile",
+      "name": "Llama 3.3 70B (Groq)",
+      "provider": "groq",
+      "context": 128000,
+      "maxOutput": 32768,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "default": true
+    },
+    {
+      "id": "deepseek-r1-distill-llama-70b",
+      "name": "DeepSeek R1 Distill 70B (Groq)",
+      "provider": "groq",
+      "context": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "reasoning": true
+    },
+    {
+      "id": "compound-beta",
+      "name": "Compound Beta (Groq)",
+      "provider": "groq",
+      "context": 128000,
+      "maxOutput": 32768,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free",
+      "reasoning": true
+    },
+    {
+      "id": "llama-3.1-8b-instant",
+      "name": "Llama 3.1 8B Instant (Groq)",
+      "provider": "groq",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "gemma2-9b-it",
+      "name": "Gemma 2 9B (Groq)",
+      "provider": "groq",
+      "context": 8192,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "meta-llama/llama-4-scout-17b-16e-instruct",
+      "name": "Llama 4 Scout (Groq)",
+      "provider": "groq",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.11,
+        "output": 0.34
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "meta-llama/llama-4-maverick-17b-128e-instruct",
+      "name": "Llama 4 Maverick (Groq)",
+      "provider": "groq",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.5,
+        "output": 0.77
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "qwen/qwen3-32b",
+      "name": "Qwen3 32B (Groq)",
+      "provider": "groq",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 0.29,
+        "output": 0.59
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "reasoning"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "command-r-plus-08-2024",
+      "name": "Command R+",
+      "provider": "cohere",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 2.5,
+        "output": 10.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "command-r-08-2024",
+      "name": "Command R",
+      "provider": "cohere",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.15,
+        "output": 0.6
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "command-a-03-2025",
+      "name": "Command A",
+      "provider": "cohere",
+      "context": 256000,
+      "maxOutput": 8000,
+      "pricing": {
+        "input": 2.5,
+        "output": 10.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "command-r7b-12-2024",
+      "name": "Command R7B",
+      "provider": "cohere",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.0375,
+        "output": 0.15
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "jamba-1.5-large",
+      "name": "Jamba 1.5 Large",
+      "provider": "ai21",
+      "context": 256000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "jamba-1.5-mini",
+      "name": "Jamba 1.5 Mini",
+      "provider": "ai21",
+      "context": 256000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.4
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "jamba-1.7-large",
+      "name": "Jamba 1.7 Large",
+      "provider": "ai21",
+      "context": 256000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "jamba-2-mini",
+      "name": "Jamba 2 Mini",
+      "provider": "ai21",
+      "context": 256000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.4
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "sonar-pro",
+      "name": "Sonar Pro",
+      "provider": "perplexity",
+      "context": 200000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 3.0,
+        "output": 15.0
+      },
+      "capabilities": [
+        "streaming"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "sonar",
+      "name": "Sonar",
+      "provider": "perplexity",
+      "context": 200000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 1.0,
+        "output": 5.0
+      },
+      "capabilities": [
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "sonar-reasoning-pro",
+      "name": "Sonar Reasoning Pro",
+      "provider": "perplexity",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "sonar-deep-research",
+      "name": "Sonar Deep Research",
+      "provider": "perplexity",
+      "context": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "r1-1776",
+      "name": "R1 1776",
+      "provider": "perplexity",
+      "context": 128000,
+      "maxOutput": 33000,
+      "pricing": {
+        "input": 2.0,
+        "output": 8.0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+      "name": "Llama 3.3 70B Turbo",
+      "provider": "together",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.88,
+        "output": 0.88
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+      "name": "Llama 3.1 405B Turbo",
+      "provider": "together",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 3.5,
+        "output": 3.5
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "deepseek-ai/DeepSeek-R1",
+      "name": "DeepSeek R1 (Together)",
+      "provider": "together",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 3.0,
+        "output": 7.0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "Qwen/Qwen2.5-72B-Instruct-Turbo",
+      "name": "Qwen 2.5 72B Turbo",
+      "provider": "together",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.6,
+        "output": 0.6
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+      "name": "Llama 4 Maverick (Together)",
+      "provider": "together",
+      "context": 1000000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.24,
+        "output": 0.77
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+      "name": "Llama 4 Scout (Together)",
+      "provider": "together",
+      "context": 1000000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.15,
+        "output": 0.4
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "accounts/fireworks/models/llama-v3p3-70b-instruct",
+      "name": "Llama 3.3 70B (Fireworks)",
+      "provider": "fireworks",
+      "context": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.9,
+        "output": 0.9
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "accounts/fireworks/models/deepseek-r1",
+      "name": "DeepSeek R1 (Fireworks)",
+      "provider": "fireworks",
+      "context": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 3.0,
+        "output": 8.0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "reasoning": true
+    },
+    {
+      "id": "accounts/fireworks/models/qwen2p5-72b-instruct",
+      "name": "Qwen 2.5 72B (Fireworks)",
+      "provider": "fireworks",
+      "context": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.9,
+        "output": 0.9
+      },
+      "capabilities": [
+        "tools",
+        "streaming"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "accounts/fireworks/models/llama-4-scout-17b-16e-instruct",
+      "name": "Llama 4 Scout (Fireworks)",
+      "provider": "fireworks",
+      "context": 1000000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.15,
+        "output": 0.4
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "accounts/fireworks/models/llama-4-maverick-17b-128e-instruct",
+      "name": "Llama 4 Maverick (Fireworks)",
+      "provider": "fireworks",
+      "context": 1000000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.24,
+        "output": 0.77
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "Llama-3.3-70B-Instruct",
+      "name": "Llama 3.3 70B",
+      "provider": "meta",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.2,
+        "output": 0.2
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid",
+      "default": true
+    },
+    {
+      "id": "Llama-3.1-405B-Instruct",
+      "name": "Llama 3.1 405B",
+      "provider": "meta",
+      "context": 128000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 3.0,
+        "output": 3.0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "Llama-4-Scout-17B-16E-Instruct",
+      "name": "Llama 4 Scout",
+      "provider": "meta",
+      "context": 1000000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.15,
+        "output": 0.5
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "Llama-4-Maverick-17B-128E-Instruct",
+      "name": "Llama 4 Maverick",
+      "provider": "meta",
+      "context": 1000000,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0.22,
+        "output": 0.85
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "paid"
+    },
+    {
+      "id": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "name": "Llama 3.3 70B (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 131072,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "default": true
+    },
+    {
+      "id": "@cf/meta/llama-4-scout-17b-16e-instruct",
+      "name": "Llama 4 Scout (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 131072,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "@cf/qwen/qwen2.5-coder-32b-instruct",
+      "name": "Qwen 2.5 Coder 32B (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 32768,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "@cf/qwen/qwq-32b",
+      "name": "QwQ 32B (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 32768,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming"
+      ],
+      "tier": "free",
+      "reasoning": true
+    },
+    {
+      "id": "@cf/deepseek/deepseek-r1-distill-qwen-32b",
+      "name": "DeepSeek R1 Distill 32B (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 32768,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "reasoning",
+        "streaming",
+        "code"
+      ],
+      "tier": "free",
+      "reasoning": true
+    },
+    {
+      "id": "@cf/google/gemma-3-12b-it",
+      "name": "Gemma 3 12B (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 32768,
+      "maxOutput": 4096,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "vision",
+        "streaming"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "@cf/meta/llama-3.1-8b-instruct-fast",
+      "name": "Llama 3.1 8B (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 8192,
+      "maxOutput": 2048,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "tools",
+        "streaming",
+        "code"
+      ],
+      "tier": "free"
+    },
+    {
+      "id": "@cf/mistral/mistral-7b-instruct-v0.2-lora",
+      "name": "Mistral 7B (Cloudflare)",
+      "provider": "cloudflare",
+      "context": 32768,
+      "maxOutput": 2048,
+      "pricing": {
+        "input": 0,
+        "output": 0
+      },
+      "capabilities": [
+        "streaming"
+      ],
+      "tier": "free"
+    }
+  ],
+  "freeProfiles": [
+    {
+      "name": "Gemini 3 Flash",
+      "icon": "⚡",
+      "provider": "gemini",
+      "model": "gemini-3-flash-preview",
+      "description": "Fast Gemini 3, 1M context. Vision + tools.",
+      "tags": [
+        "fast",
+        "vision",
+        "tools",
+        "code"
+      ],
+      "recommended": true,
+      "arenaScore": 1473
+    },
+    {
+      "name": "DeepSeek R1",
+      "icon": "🧠",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-r1-0528:free",
+      "description": "Advanced reasoning, 160K context.",
+      "tags": [
+        "reasoning",
+        "code"
+      ],
+      "recommended": true,
+      "arenaScore": 1418
+    },
+    {
+      "name": "Qwen 3 Coder 480B",
+      "icon": "💻",
+      "provider": "openrouter",
+      "model": "qwen/qwen3-coder:free",
+      "description": "Code-specialized, 262K context.",
+      "tags": [
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1412
+    },
+    {
+      "name": "Gemini 2.5 Flash",
+      "icon": "✦",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash",
+      "description": "Fast, free, 1M context. Vision + tools.",
+      "tags": [
+        "fast",
+        "vision",
+        "tools",
+        "code"
+      ],
+      "recommended": true,
+      "arenaScore": 1411
+    },
+    {
+      "name": "GLM 4.5 Air",
+      "icon": "🎯",
+      "provider": "openrouter",
+      "model": "z-ai/glm-4.5-air:free",
+      "description": "Zhipu AI, 131K context. Reasoning + tools.",
+      "tags": [
+        "reasoning",
+        "tools"
+      ],
+      "arenaScore": 1400
+    },
+    {
+      "name": "GPT-OSS 120B",
+      "icon": "🤖",
+      "provider": "openrouter",
+      "model": "openai/gpt-oss-120b:free",
+      "description": "OpenAI open-source 120B model.",
+      "tags": [
+        "reasoning",
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1395
+    },
+    {
+      "name": "Mistral Small 3.1",
+      "icon": "🌊",
+      "provider": "openrouter",
+      "model": "mistralai/mistral-small-3.1-24b-instruct:free",
+      "description": "Compact and capable. Vision + tools.",
+      "tags": [
+        "vision",
+        "tools"
+      ],
+      "arenaScore": 1390
+    },
+    {
+      "name": "Aurora Alpha",
+      "icon": "🌅",
+      "provider": "openrouter",
+      "model": "openrouter/aurora-alpha",
+      "description": "OpenRouter's reasoning model, 128K context.",
+      "tags": [
+        "reasoning",
+        "tools"
+      ],
+      "arenaScore": 1385
+    },
+    {
+      "name": "Gemini 2.5 Flash-Lite",
+      "icon": "✦",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash-lite",
+      "description": "Ultra-fast, highest rate limit (30 RPM).",
+      "tags": [
+        "fast",
+        "vision",
+        "code"
+      ],
+      "arenaScore": 1380
+    },
+    {
+      "name": "Llama 3.3 70B",
+      "icon": "🦙",
+      "provider": "openrouter",
+      "model": "meta-llama/llama-3.3-70b-instruct:free",
+      "description": "Meta's flagship open model, 128K context.",
+      "tags": [
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1320
+    },
+    {
+      "name": "Hermes 3 405B",
+      "icon": "📜",
+      "provider": "openrouter",
+      "model": "nousresearch/hermes-3-llama-3.1-405b:free",
+      "description": "Largest free model (405B). Streaming only.",
+      "tags": [
+        "code"
+      ],
+      "arenaScore": 1336
+    },
+    {
+      "name": "GPT-OSS 20B",
+      "icon": "🤖",
+      "provider": "openrouter",
+      "model": "openai/gpt-oss-20b:free",
+      "description": "Lightweight OpenAI open-source model.",
+      "tags": [
+        "reasoning",
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1375
+    },
+    {
+      "name": "Step 3.5 Flash",
+      "icon": "🚀",
+      "provider": "openrouter",
+      "model": "stepfun/step-3.5-flash:free",
+      "description": "256K context, reasoning + tools.",
+      "tags": [
+        "reasoning",
+        "tools"
+      ],
+      "arenaScore": 1370
+    },
+    {
+      "name": "Gemma 3 27B",
+      "icon": "💎",
+      "provider": "openrouter",
+      "model": "google/gemma-3-27b-it:free",
+      "description": "Google's open model. Vision + tools.",
+      "tags": [
+        "vision",
+        "tools"
+      ],
+      "arenaScore": 1370
+    },
+    {
+      "name": "Trinity Large 400B",
+      "icon": "🔺",
+      "provider": "openrouter",
+      "model": "arcee-ai/trinity-large-preview:free",
+      "description": "400B parameter model with tools.",
+      "tags": [
+        "tools"
+      ],
+      "arenaScore": 1365
+    },
+    {
+      "name": "Solar Pro 3",
+      "icon": "☀️",
+      "provider": "openrouter",
+      "model": "upstage/solar-pro-3:free",
+      "description": "Korean AI model, reasoning + tools.",
+      "tags": [
+        "reasoning",
+        "tools"
+      ],
+      "arenaScore": 1355
+    },
+    {
+      "name": "Nemotron Nano 12B VL",
+      "icon": "⚡",
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+      "description": "NVIDIA vision-language model, 128K context.",
+      "tags": [
+        "vision",
+        "reasoning",
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1350
+    },
+    {
+      "name": "Qwen 3 Next 80B",
+      "icon": "🌐",
+      "provider": "openrouter",
+      "model": "qwen/qwen3-next-80b-a3b-instruct:free",
+      "description": "Qwen 3 Next series, 262K context. Tools.",
+      "tags": [
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1395
+    },
+    {
+      "name": "Nemotron 3 Nano 30B",
+      "icon": "⚡",
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3-nano-30b-a3b:free",
+      "description": "NVIDIA reasoning model, 256K context.",
+      "tags": [
+        "reasoning",
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1365
+    },
+    {
+      "name": "Trinity Mini 26B",
+      "icon": "🔺",
+      "provider": "openrouter",
+      "model": "arcee-ai/trinity-mini:free",
+      "description": "Compact reasoning model, 131K context.",
+      "tags": [
+        "reasoning",
+        "tools"
+      ],
+      "arenaScore": 1355
+    },
+    {
+      "name": "Gemma 3 12B",
+      "icon": "💎",
+      "provider": "openrouter",
+      "model": "google/gemma-3-12b-it:free",
+      "description": "Google compact model. Vision + tools, 140+ languages.",
+      "tags": [
+        "vision",
+        "tools"
+      ],
+      "arenaScore": 1350
+    },
+    {
+      "name": "Llama 3.3 70B (Groq)",
+      "icon": "⚡",
+      "provider": "groq",
+      "model": "llama-3.3-70b-versatile",
+      "description": "Ultra-fast Llama 3.3 70B on Groq LPU. Free, 128K context.",
+      "tags": [
+        "fast",
+        "tools",
+        "code"
+      ],
+      "recommended": true,
+      "arenaScore": 1320
+    },
+    {
+      "name": "DeepSeek R1 (Groq)",
+      "icon": "⚡",
+      "provider": "groq",
+      "model": "deepseek-r1-distill-llama-70b",
+      "description": "Fast reasoning on Groq. Free, 128K context.",
+      "tags": [
+        "reasoning",
+        "code"
+      ],
+      "arenaScore": 1390
+    },
+    {
+      "name": "Compound Beta (Groq)",
+      "icon": "⚡",
+      "provider": "groq",
+      "model": "compound-beta",
+      "description": "Groq compound AI agent. Free, reasoning + tools.",
+      "tags": [
+        "reasoning",
+        "tools"
+      ],
+      "arenaScore": 1385
+    },
+    {
+      "name": "Llama 3.3 70B (CF)",
+      "icon": "☁️",
+      "provider": "cloudflare",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "description": "Llama 3.3 70B on Cloudflare edge. Free 10K neurons/day.",
+      "tags": [
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1320
+    },
+    {
+      "name": "DeepSeek R1 32B (CF)",
+      "icon": "☁️",
+      "provider": "cloudflare",
+      "model": "@cf/deepseek/deepseek-r1-distill-qwen-32b",
+      "description": "DeepSeek R1 reasoning on Cloudflare edge. Free tier.",
+      "tags": [
+        "reasoning",
+        "code"
+      ],
+      "arenaScore": 1370
+    },
+    {
+      "name": "Qwen Coder 32B (CF)",
+      "icon": "☁️",
+      "provider": "cloudflare",
+      "model": "@cf/qwen/qwen2.5-coder-32b-instruct",
+      "description": "Qwen code specialist on Cloudflare edge. Free tier.",
+      "tags": [
+        "tools",
+        "code"
+      ],
+      "arenaScore": 1365
+    }
+  ],
+  "plans": {
+    "free": {
+      "name": "Free",
+      "price": 0,
+      "period": "forever",
+      "features": [
+        "20+ free models (OpenRouter + Gemini + Groq)",
+        "Unlimited conversations",
+        "BYOK (Bring Your Own Key) for any provider",
+        "Council mode (multi-model deliberation)",
+        "Conversation search",
+        "Usage analytics dashboard *",
+        "Per-bot memory",
+        "Reminders & scheduler",
+        "Export chat (JSON, Markdown, Text)",
+        "Dark/light theme",
+        "Local AI via Ollama",
+        "Community plugins"
+      ],
+      "notes": [
+        "* Accuracy depends on provider"
+      ]
+    },
+    "lite": {
+      "name": "Lite",
+      "trial": 7,
+      "monthly": {
+        "1": 9,
+        "2": 6,
+        "3": 4,
+        "4": 3
+      },
+      "yearly": {
+        "1": 65,
+        "2": 43,
+        "3": 29,
+        "4": 22
+      },
+      "savePct": {
+        "1": 40,
+        "2": 40,
+        "3": 40,
+        "4": 39
+      },
+      "saveDollars": {
+        "1": 43,
+        "2": 29,
+        "3": 19,
+        "4": 14
+      },
+      "features": [
+        "Everything in Free, plus:",
+        "60+ premium models (Claude, GPT, Grok, Gemini Pro)",
+        "Image generation (DALL-E, Grok)",
+        "Vision (image input)",
+        "Custom bot personas (icon, color, description)",
+        "Mini-programs & apps",
+        "P2P collaboration",
+        "Publishing (SEO, Open Graph)",
+        "No ads",
+        "7-day free trial"
+      ]
+    },
+    "geoTiers": {
+      "country": {
+        "US": 1,
+        "CA": 1,
+        "GB": 1,
+        "AU": 1,
+        "NZ": 1,
+        "DE": 1,
+        "FR": 1,
+        "NL": 1,
+        "CH": 1,
+        "NO": 1,
+        "SE": 1,
+        "DK": 1,
+        "JP": 1,
+        "SG": 1,
+        "KR": 1,
+        "AT": 1,
+        "FI": 1,
+        "BE": 1,
+        "LU": 1,
+        "IS": 1,
+        "IT": 2,
+        "ES": 2,
+        "PT": 2,
+        "PL": 2,
+        "CZ": 2,
+        "IL": 2,
+        "AE": 2,
+        "SA": 2,
+        "TW": 2,
+        "HK": 2,
+        "IE": 2,
+        "GR": 2,
+        "HR": 2,
+        "SK": 2,
+        "SI": 2,
+        "EE": 2,
+        "LT": 2,
+        "LV": 2,
+        "CY": 2,
+        "MT": 2,
+        "QA": 2,
+        "KW": 2,
+        "BH": 2,
+        "BR": 3,
+        "MX": 3,
+        "AR": 3,
+        "TR": 3,
+        "MY": 3,
+        "TH": 3,
+        "ZA": 3,
+        "RO": 3,
+        "BG": 3,
+        "CL": 3,
+        "RU": 3,
+        "CO": 3,
+        "PE": 3,
+        "HU": 3,
+        "RS": 3,
+        "CR": 3,
+        "PA": 3,
+        "UY": 3,
+        "DO": 3,
+        "EC": 3,
+        "JO": 3,
+        "GE": 3,
+        "KZ": 3,
+        "IN": 4,
+        "ID": 4,
+        "PH": 4,
+        "VN": 4,
+        "EG": 4,
+        "PK": 4,
+        "BD": 4,
+        "NG": 4,
+        "KE": 4,
+        "UA": 4,
+        "NP": 4,
+        "KH": 4,
+        "MM": 4,
+        "LK": 4,
+        "GH": 4,
+        "ET": 4,
+        "TZ": 4,
+        "UZ": 4,
+        "LA": 4,
+        "SN": 4,
+        "MZ": 4,
+        "MG": 4,
+        "CM": 4,
+        "ML": 4,
+        "BF": 4,
+        "NE": 4,
+        "RW": 4,
+        "UG": 4,
+        "ZW": 4,
+        "MN": 4,
+        "BO": 4,
+        "GT": 4,
+        "HN": 4,
+        "NI": 4,
+        "SV": 4
+      },
+      "countryCurrency": {
+        "GB": {
+          "code": "GBP",
+          "symbol": "£",
+          "rate": 0.79
+        },
+        "AT": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "BE": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "CY": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "DE": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "EE": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "ES": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "FI": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "FR": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "GR": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "HR": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "IE": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "IT": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "LT": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "LU": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "LV": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "MT": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "NL": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "PT": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "SI": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "SK": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "JP": {
+          "code": "JPY",
+          "symbol": "¥",
+          "rate": 149
+        },
+        "KR": {
+          "code": "KRW",
+          "symbol": "₩",
+          "rate": 1330
+        },
+        "SG": {
+          "code": "SGD",
+          "symbol": "S$",
+          "rate": 1.34
+        },
+        "AU": {
+          "code": "AUD",
+          "symbol": "A$",
+          "rate": 1.55
+        },
+        "NZ": {
+          "code": "NZD",
+          "symbol": "NZ$",
+          "rate": 1.7
+        },
+        "CA": {
+          "code": "CAD",
+          "symbol": "C$",
+          "rate": 1.36
+        },
+        "CH": {
+          "code": "CHF",
+          "symbol": "CHF",
+          "rate": 0.88
+        },
+        "NO": {
+          "code": "NOK",
+          "symbol": "kr",
+          "rate": 10.8
+        },
+        "SE": {
+          "code": "SEK",
+          "symbol": "kr",
+          "rate": 10.5
+        },
+        "DK": {
+          "code": "DKK",
+          "symbol": "kr",
+          "rate": 6.9
+        },
+        "PL": {
+          "code": "PLN",
+          "symbol": "zł",
+          "rate": 4.0
+        },
+        "CZ": {
+          "code": "CZK",
+          "symbol": "Kč",
+          "rate": 23.5
+        },
+        "IL": {
+          "code": "ILS",
+          "symbol": "₪",
+          "rate": 3.7
+        },
+        "AE": {
+          "code": "AED",
+          "symbol": "AED",
+          "rate": 3.67
+        },
+        "SA": {
+          "code": "SAR",
+          "symbol": "SAR",
+          "rate": 3.75
+        },
+        "QA": {
+          "code": "QAR",
+          "symbol": "QR",
+          "rate": 3.64
+        },
+        "KW": {
+          "code": "KWD",
+          "symbol": "KD",
+          "rate": 0.31
+        },
+        "BH": {
+          "code": "BHD",
+          "symbol": "BD",
+          "rate": 0.38
+        },
+        "TW": {
+          "code": "TWD",
+          "symbol": "NT$",
+          "rate": 32
+        },
+        "HK": {
+          "code": "HKD",
+          "symbol": "HK$",
+          "rate": 7.8
+        },
+        "BR": {
+          "code": "BRL",
+          "symbol": "R$",
+          "rate": 5.0
+        },
+        "MX": {
+          "code": "MXN",
+          "symbol": "MX$",
+          "rate": 17.5
+        },
+        "AR": {
+          "code": "ARS",
+          "symbol": "AR$",
+          "rate": 900
+        },
+        "CL": {
+          "code": "CLP",
+          "symbol": "CL$",
+          "rate": 950
+        },
+        "CO": {
+          "code": "COP",
+          "symbol": "COL$",
+          "rate": 4000
+        },
+        "PE": {
+          "code": "PEN",
+          "symbol": "S/",
+          "rate": 3.7
+        },
+        "UY": {
+          "code": "UYU",
+          "symbol": "$U",
+          "rate": 43
+        },
+        "CR": {
+          "code": "CRC",
+          "symbol": "₡",
+          "rate": 510
+        },
+        "DO": {
+          "code": "DOP",
+          "symbol": "RD$",
+          "rate": 59
+        },
+        "TR": {
+          "code": "TRY",
+          "symbol": "₺",
+          "rate": 32
+        },
+        "MY": {
+          "code": "MYR",
+          "symbol": "RM",
+          "rate": 4.47
+        },
+        "TH": {
+          "code": "THB",
+          "symbol": "฿",
+          "rate": 35
+        },
+        "ZA": {
+          "code": "ZAR",
+          "symbol": "R",
+          "rate": 18
+        },
+        "RU": {
+          "code": "RUB",
+          "symbol": "₽",
+          "rate": 90
+        },
+        "RO": {
+          "code": "RON",
+          "symbol": "lei",
+          "rate": 4.6
+        },
+        "BG": {
+          "code": "BGN",
+          "symbol": "лв",
+          "rate": 1.8
+        },
+        "HU": {
+          "code": "HUF",
+          "symbol": "Ft",
+          "rate": 370
+        },
+        "RS": {
+          "code": "RSD",
+          "symbol": "din",
+          "rate": 108
+        },
+        "JO": {
+          "code": "JOD",
+          "symbol": "JD",
+          "rate": 0.71
+        },
+        "GE": {
+          "code": "GEL",
+          "symbol": "₾",
+          "rate": 2.7
+        },
+        "KZ": {
+          "code": "KZT",
+          "symbol": "₸",
+          "rate": 470
+        },
+        "IN": {
+          "code": "INR",
+          "symbol": "₹",
+          "rate": 83
+        },
+        "ID": {
+          "code": "IDR",
+          "symbol": "Rp",
+          "rate": 15700
+        },
+        "PH": {
+          "code": "PHP",
+          "symbol": "₱",
+          "rate": 56
+        },
+        "VN": {
+          "code": "VND",
+          "symbol": "₫",
+          "rate": 25000
+        },
+        "EG": {
+          "code": "EGP",
+          "symbol": "E£",
+          "rate": 48
+        },
+        "PK": {
+          "code": "PKR",
+          "symbol": "Rs",
+          "rate": 280
+        },
+        "BD": {
+          "code": "BDT",
+          "symbol": "৳",
+          "rate": 120
+        },
+        "NG": {
+          "code": "NGN",
+          "symbol": "₦",
+          "rate": 1500
+        },
+        "KE": {
+          "code": "KES",
+          "symbol": "KSh",
+          "rate": 130
+        },
+        "UA": {
+          "code": "UAH",
+          "symbol": "₴",
+          "rate": 41
+        },
+        "GT": {
+          "code": "GTQ",
+          "symbol": "Q",
+          "rate": 7.8
+        },
+        "HN": {
+          "code": "HNL",
+          "symbol": "L",
+          "rate": 25
+        },
+        "NI": {
+          "code": "NIO",
+          "symbol": "C$",
+          "rate": 37
+        },
+        "BO": {
+          "code": "BOB",
+          "symbol": "Bs",
+          "rate": 6.9
+        },
+        "IS": {
+          "code": "ISK",
+          "symbol": "kr",
+          "rate": 137
+        },
+        "NP": {
+          "code": "NPR",
+          "symbol": "Rs",
+          "rate": 133
+        },
+        "KH": {
+          "code": "KHR",
+          "symbol": "៛",
+          "rate": 4100
+        },
+        "MM": {
+          "code": "MMK",
+          "symbol": "K",
+          "rate": 2100
+        },
+        "LK": {
+          "code": "LKR",
+          "symbol": "Rs",
+          "rate": 320
+        },
+        "MN": {
+          "code": "MNT",
+          "symbol": "₮",
+          "rate": 3400
+        },
+        "UZ": {
+          "code": "UZS",
+          "symbol": "soʻm",
+          "rate": 12800
+        },
+        "LA": {
+          "code": "LAK",
+          "symbol": "₭",
+          "rate": 22000
+        },
+        "GH": {
+          "code": "GHS",
+          "symbol": "GH₵",
+          "rate": 16
+        },
+        "ET": {
+          "code": "ETB",
+          "symbol": "Br",
+          "rate": 57
+        },
+        "TZ": {
+          "code": "TZS",
+          "symbol": "TSh",
+          "rate": 2700
+        },
+        "SN": {
+          "code": "XOF",
+          "symbol": "CFA",
+          "rate": 600
+        },
+        "ML": {
+          "code": "XOF",
+          "symbol": "CFA",
+          "rate": 600
+        },
+        "BF": {
+          "code": "XOF",
+          "symbol": "CFA",
+          "rate": 600
+        },
+        "NE": {
+          "code": "XOF",
+          "symbol": "CFA",
+          "rate": 600
+        },
+        "CM": {
+          "code": "XAF",
+          "symbol": "FCFA",
+          "rate": 600
+        },
+        "RW": {
+          "code": "RWF",
+          "symbol": "FRw",
+          "rate": 1350
+        },
+        "UG": {
+          "code": "UGX",
+          "symbol": "USh",
+          "rate": 3800
+        },
+        "MG": {
+          "code": "MGA",
+          "symbol": "Ar",
+          "rate": 4600
+        },
+        "MZ": {
+          "code": "MZN",
+          "symbol": "MT",
+          "rate": 64
+        },
+        "ZW": {
+          "code": "USD",
+          "symbol": "$",
+          "rate": 1
+        }
+      },
+      "tz": {
+        "America/New_York": 1,
+        "America/Chicago": 1,
+        "America/Denver": 1,
+        "America/Los_Angeles": 1,
+        "America/Anchorage": 1,
+        "Pacific/Honolulu": 1,
+        "America/Toronto": 1,
+        "America/Vancouver": 1,
+        "America/Edmonton": 1,
+        "Australia/Sydney": 1,
+        "Australia/Melbourne": 1,
+        "Australia/Perth": 1,
+        "Australia/Brisbane": 1,
+        "Pacific/Auckland": 1,
+        "Asia/Tokyo": 1,
+        "Asia/Singapore": 1,
+        "Asia/Seoul": 1,
+        "Europe/Zurich": 1,
+        "Europe/Oslo": 1,
+        "Europe/Stockholm": 1,
+        "Europe/Copenhagen": 1,
+        "Europe/Helsinki": 1,
+        "Europe/Berlin": 1,
+        "Europe/Amsterdam": 1,
+        "Europe/Brussels": 1,
+        "Europe/Luxembourg": 1,
+        "Europe/Vienna": 1,
+        "Atlantic/Reykjavik": 1,
+        "Europe/Paris": 1,
+        "Europe/London": 1,
+        "Europe/Rome": 2,
+        "Europe/Madrid": 2,
+        "Europe/Lisbon": 2,
+        "Europe/Warsaw": 2,
+        "Europe/Prague": 2,
+        "Asia/Jerusalem": 2,
+        "Asia/Dubai": 2,
+        "Asia/Riyadh": 2,
+        "Asia/Taipei": 2,
+        "Asia/Hong_Kong": 2,
+        "Europe/Dublin": 2,
+        "Europe/Athens": 2,
+        "Europe/Zagreb": 2,
+        "Europe/Bratislava": 2,
+        "Europe/Ljubljana": 2,
+        "Europe/Tallinn": 2,
+        "Europe/Vilnius": 2,
+        "Europe/Riga": 2,
+        "Asia/Nicosia": 2,
+        "Europe/Malta": 2,
+        "Asia/Qatar": 2,
+        "Asia/Kuwait": 2,
+        "Asia/Bahrain": 2,
+        "America/Sao_Paulo": 3,
+        "America/Mexico_City": 3,
+        "America/Argentina/Buenos_Aires": 3,
+        "Europe/Istanbul": 3,
+        "Asia/Kuala_Lumpur": 3,
+        "Asia/Bangkok": 3,
+        "Africa/Johannesburg": 3,
+        "Europe/Bucharest": 3,
+        "Europe/Sofia": 3,
+        "America/Santiago": 3,
+        "Europe/Moscow": 3,
+        "America/Bogota": 3,
+        "America/Lima": 3,
+        "Europe/Budapest": 3,
+        "Europe/Belgrade": 3,
+        "America/Costa_Rica": 3,
+        "America/Panama": 3,
+        "America/Montevideo": 3,
+        "America/Santo_Domingo": 3,
+        "America/Guayaquil": 3,
+        "Asia/Amman": 3,
+        "Asia/Tbilisi": 3,
+        "Asia/Almaty": 3,
+        "Asia/Kolkata": 4,
+        "Asia/Calcutta": 4,
+        "Asia/Jakarta": 4,
+        "Asia/Manila": 4,
+        "Asia/Ho_Chi_Minh": 4,
+        "Africa/Cairo": 4,
+        "Asia/Karachi": 4,
+        "Asia/Dhaka": 4,
+        "Africa/Lagos": 4,
+        "Africa/Nairobi": 4,
+        "Europe/Kyiv": 4,
+        "Asia/Kathmandu": 4,
+        "Asia/Phnom_Penh": 4,
+        "Asia/Yangon": 4,
+        "Asia/Colombo": 4,
+        "Africa/Accra": 4,
+        "Africa/Addis_Ababa": 4,
+        "Africa/Dar_es_Salaam": 4,
+        "Asia/Tashkent": 4,
+        "Asia/Vientiane": 4,
+        "Africa/Dakar": 4,
+        "Africa/Maputo": 4,
+        "Indian/Antananarivo": 4,
+        "Africa/Douala": 4,
+        "Africa/Bamako": 4,
+        "Africa/Ouagadougou": 4,
+        "Africa/Niamey": 4,
+        "Africa/Kigali": 4,
+        "Africa/Kampala": 4,
+        "Africa/Harare": 4,
+        "Asia/Ulaanbaatar": 4,
+        "America/La_Paz": 4,
+        "America/Guatemala": 4,
+        "America/Tegucigalpa": 4,
+        "America/Managua": 4,
+        "America/El_Salvador": 4
+      },
+      "localCurrency": {
+        "Europe/London": {
+          "code": "GBP",
+          "symbol": "£",
+          "rate": 0.79
+        },
+        "Europe/Berlin": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Paris": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Amsterdam": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Brussels": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Vienna": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Rome": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Madrid": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Lisbon": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Dublin": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Athens": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Helsinki": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Luxembourg": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Malta": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Bratislava": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Ljubljana": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Tallinn": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Vilnius": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Riga": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Asia/Nicosia": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Europe/Zagreb": {
+          "code": "EUR",
+          "symbol": "€",
+          "rate": 0.92
+        },
+        "Asia/Tokyo": {
+          "code": "JPY",
+          "symbol": "¥",
+          "rate": 149
+        },
+        "Asia/Seoul": {
+          "code": "KRW",
+          "symbol": "₩",
+          "rate": 1330
+        },
+        "Asia/Singapore": {
+          "code": "SGD",
+          "symbol": "S$",
+          "rate": 1.34
+        },
+        "Australia/Sydney": {
+          "code": "AUD",
+          "symbol": "A$",
+          "rate": 1.55
+        },
+        "Australia/Melbourne": {
+          "code": "AUD",
+          "symbol": "A$",
+          "rate": 1.55
+        },
+        "Australia/Perth": {
+          "code": "AUD",
+          "symbol": "A$",
+          "rate": 1.55
+        },
+        "Australia/Brisbane": {
+          "code": "AUD",
+          "symbol": "A$",
+          "rate": 1.55
+        },
+        "Pacific/Auckland": {
+          "code": "NZD",
+          "symbol": "NZ$",
+          "rate": 1.7
+        },
+        "America/Toronto": {
+          "code": "CAD",
+          "symbol": "C$",
+          "rate": 1.36
+        },
+        "America/Vancouver": {
+          "code": "CAD",
+          "symbol": "C$",
+          "rate": 1.36
+        },
+        "America/Edmonton": {
+          "code": "CAD",
+          "symbol": "C$",
+          "rate": 1.36
+        },
+        "Europe/Zurich": {
+          "code": "CHF",
+          "symbol": "CHF ",
+          "rate": 0.88
+        },
+        "Europe/Oslo": {
+          "code": "NOK",
+          "symbol": "kr ",
+          "rate": 10.8
+        },
+        "Europe/Stockholm": {
+          "code": "SEK",
+          "symbol": "kr ",
+          "rate": 10.5
+        },
+        "Europe/Copenhagen": {
+          "code": "DKK",
+          "symbol": "kr ",
+          "rate": 6.9
+        },
+        "Europe/Warsaw": {
+          "code": "PLN",
+          "symbol": "zł",
+          "rate": 4.0
+        },
+        "Europe/Prague": {
+          "code": "CZK",
+          "symbol": "Kč",
+          "rate": 23.5
+        },
+        "Asia/Jerusalem": {
+          "code": "ILS",
+          "symbol": "₪",
+          "rate": 3.7
+        },
+        "Asia/Dubai": {
+          "code": "AED",
+          "symbol": "AED ",
+          "rate": 3.67
+        },
+        "Asia/Riyadh": {
+          "code": "SAR",
+          "symbol": "SAR ",
+          "rate": 3.75
+        },
+        "Asia/Taipei": {
+          "code": "TWD",
+          "symbol": "NT$",
+          "rate": 32
+        },
+        "Asia/Hong_Kong": {
+          "code": "HKD",
+          "symbol": "HK$",
+          "rate": 7.8
+        },
+        "America/Sao_Paulo": {
+          "code": "BRL",
+          "symbol": "R$",
+          "rate": 5.0
+        },
+        "America/Mexico_City": {
+          "code": "MXN",
+          "symbol": "MX$",
+          "rate": 17.5
+        },
+        "Europe/Istanbul": {
+          "code": "TRY",
+          "symbol": "₺",
+          "rate": 32
+        },
+        "Asia/Kuala_Lumpur": {
+          "code": "MYR",
+          "symbol": "RM",
+          "rate": 4.5
+        },
+        "Asia/Bangkok": {
+          "code": "THB",
+          "symbol": "฿",
+          "rate": 35
+        },
+        "Africa/Johannesburg": {
+          "code": "ZAR",
+          "symbol": "R",
+          "rate": 18
+        },
+        "Europe/Moscow": {
+          "code": "RUB",
+          "symbol": "₽",
+          "rate": 90
+        },
+        "America/Bogota": {
+          "code": "COP",
+          "symbol": "COL$",
+          "rate": 4000
+        },
+        "Europe/Bucharest": {
+          "code": "RON",
+          "symbol": "lei ",
+          "rate": 4.6
+        },
+        "Europe/Budapest": {
+          "code": "HUF",
+          "symbol": "Ft",
+          "rate": 370
+        },
+        "Asia/Kolkata": {
+          "code": "INR",
+          "symbol": "₹",
+          "rate": 83
+        },
+        "Asia/Calcutta": {
+          "code": "INR",
+          "symbol": "₹",
+          "rate": 83
+        },
+        "Asia/Jakarta": {
+          "code": "IDR",
+          "symbol": "Rp",
+          "rate": 15700
+        },
+        "Asia/Manila": {
+          "code": "PHP",
+          "symbol": "₱",
+          "rate": 56
+        },
+        "Asia/Ho_Chi_Minh": {
+          "code": "VND",
+          "symbol": "₫",
+          "rate": 25000
+        },
+        "Africa/Cairo": {
+          "code": "EGP",
+          "symbol": "E£",
+          "rate": 48
+        },
+        "Asia/Karachi": {
+          "code": "PKR",
+          "symbol": "Rs",
+          "rate": 280
+        },
+        "Asia/Dhaka": {
+          "code": "BDT",
+          "symbol": "৳",
+          "rate": 120
+        },
+        "Africa/Lagos": {
+          "code": "NGN",
+          "symbol": "₦",
+          "rate": 1500
+        },
+        "Africa/Nairobi": {
+          "code": "KES",
+          "symbol": "KSh",
+          "rate": 130
+        },
+        "Europe/Kyiv": {
+          "code": "UAH",
+          "symbol": "₴",
+          "rate": 41
+        }
+      }
+    }
+  },
+  "sync": {
+    "stun": [
+      "stun:stun.l.google.com:19302",
+      "stun:stun1.l.google.com:19302"
+    ],
+    "nostrRelays": [
+      "wss://relay.damus.io",
+      "wss://nos.lol",
+      "wss://relay.nostr.band"
+    ],
+    "appId": "aiscouncil",
+    "deps": {
+      "yjs": "https://cdn.jsdelivr.net/npm/yjs@13/+esm",
+      "trystero": "https://cdn.jsdelivr.net/npm/trystero@0.20/src/nostr.js"
+    },
+    "lanPort": 8741,
+    "pairingCodeLength": 6
+  },
+  "products": {
+    "device-sync": {
+      "name": "Device Sync",
+      "type": "mini-program",
+      "oneOff": true,
+      "prices": {
+        "1": 1500,
+        "2": 1000,
+        "3": 700,
+        "4": 400
+      },
+      "currency": "USD",
+      "description": "Sync profiles, API keys, and settings between devices over encrypted P2P"
+    }
+  },
+  "presetCouncils": [
+    {
+      "name": "Research Team",
+      "icon": "🔬",
+      "description": "Top arena models from 5 providers: Opus 4.6 (#1, 1M) + Gemini 3 Pro (#3, 1M) + Grok 4.1 Fast (#4, 2M) + GPT-5.1 (#11, 400K) + GLM-5 (#12, 205K). Opus 4.6 leads as #1 arena model.",
+      "simpleDescription": "Your dream team of AI brains. They all think about your question, check each other's work, then the lead writes the final answer.",
+      "style": "research",
+      "chairman": 0,
+      "privacy": "private",
+      "members": [
+        {
+          "provider": "anthropic",
+          "model": "claude-opus-4-6"
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3-pro-preview"
+        },
+        {
+          "provider": "xai",
+          "model": "grok-4-1-fast-reasoning"
+        },
+        {
+          "provider": "openai",
+          "model": "gpt-5.1"
+        },
+        {
+          "provider": "zhipu",
+          "model": "glm-5"
+        }
+      ],
+      "recommended": true
+    },
+    {
+      "name": "Model Arena",
+      "icon": "⚔️",
+      "description": "Opus 4.6 vs Gemini 3 Pro vs Grok 4.1 vs GPT-5.1 — top 4 arena models compete, you pick the winner",
+      "simpleDescription": "Four top paid AIs compete on every question. You see all their answers and pick the winner.",
+      "style": "arena",
+      "chairman": null,
+      "privacy": "private",
+      "members": [
+        {
+          "provider": "anthropic",
+          "model": "claude-opus-4-6"
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3-pro-preview"
+        },
+        {
+          "provider": "xai",
+          "model": "grok-4-1-fast-reasoning"
+        },
+        {
+          "provider": "openai",
+          "model": "gpt-5.1"
+        }
+      ]
+    },
+    {
+      "name": "Agent Pipeline",
+      "icon": "🧬",
+      "description": "GPT-5.1 + Gemini 3 Pro + Grok 4.1 Fast respond, Opus 4.6 (#1 arena) refines into one polished answer",
+      "simpleDescription": "Each AI improves the previous one's answer like a relay race. The last one polishes it into the best version.",
+      "style": "moa",
+      "chairman": 3,
+      "privacy": "private",
+      "members": [
+        {
+          "provider": "openai",
+          "model": "gpt-5.1"
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3-pro-preview"
+        },
+        {
+          "provider": "xai",
+          "model": "grok-4-1-fast-reasoning"
+        },
+        {
+          "provider": "anthropic",
+          "model": "claude-opus-4-6"
+        }
+      ]
+    },
+    {
+      "name": "Smart Router",
+      "icon": "🛤️",
+      "description": "Opus 4.6 (#1 arena) routes to Gemini 3 Pro, Grok 4.1 Fast, or GPT-5.1",
+      "simpleDescription": "Automatically picks the best AI for each question. Math goes to one, writing to another, coding to a third.",
+      "style": "router",
+      "chairman": 0,
+      "privacy": "private",
+      "members": [
+        {
+          "provider": "anthropic",
+          "model": "claude-opus-4-6"
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3-pro-preview"
+        },
+        {
+          "provider": "xai",
+          "model": "grok-4-1-fast-reasoning"
+        },
+        {
+          "provider": "openai",
+          "model": "gpt-5.1"
+        }
+      ]
+    },
+    {
+      "name": "Side-by-Side",
+      "icon": "🔍",
+      "description": "Opus 4.6 vs Gemini 3 Pro vs Grok 4.1 vs GPT-5.1 — top 4 arena models head to head",
+      "simpleDescription": "See how the top 4 AIs answer the same question, side by side. Great for comparing who's best at what.",
+      "style": "compare",
+      "chairman": null,
+      "privacy": "private",
+      "members": [
+        {
+          "provider": "anthropic",
+          "model": "claude-opus-4-6"
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3-pro-preview"
+        },
+        {
+          "provider": "xai",
+          "model": "grok-4-1-fast-reasoning"
+        },
+        {
+          "provider": "openai",
+          "model": "gpt-5.1"
+        }
+      ]
+    },
+    {
+      "name": "Pro Debate",
+      "icon": "🎭",
+      "description": "Gemini 3 Pro + GPT-5.1 argue opposing sides, Opus 4.6 (#1 arena) moderates",
+      "simpleDescription": "Top paid AIs argue opposite sides of your question. A moderator analyzes both sides and delivers the verdict.",
+      "style": "debate",
+      "chairman": 2,
+      "privacy": "private",
+      "members": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3-pro-preview",
+          "side": "for"
+        },
+        {
+          "provider": "openai",
+          "model": "gpt-5.1",
+          "side": "against"
+        },
+        {
+          "provider": "anthropic",
+          "model": "claude-opus-4-6"
+        }
+      ]
+    },
+    {
+      "name": "Expert Panel",
+      "icon": "🏆",
+      "description": "Opus 4.6 + Gemini 3 Pro + Grok 4.1 + GPT-5.1 + GLM-5 vote on the best answer",
+      "simpleDescription": "Five top AIs from different providers all answer, then vote on the best response. The most popular answer wins.",
+      "style": "consensus",
+      "chairman": null,
+      "privacy": "private",
+      "members": [
+        {
+          "provider": "anthropic",
+          "model": "claude-opus-4-6"
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3-pro-preview"
+        },
+        {
+          "provider": "xai",
+          "model": "grok-4-1-fast-reasoning"
+        },
+        {
+          "provider": "openai",
+          "model": "gpt-5.1"
+        },
+        {
+          "provider": "zhipu",
+          "model": "glm-5"
+        }
+      ]
+    },
+    {
+      "name": "Free Research Team",
+      "icon": "🔬",
+      "description": "Gemini 3 Flash (1M ctx) + DeepSeek R1 + Qwen 3 Coder deliberate, peer review, chairman synthesizes",
+      "simpleDescription": "Free AI brains that think about your question, check each other's work, then the lead writes the final answer.",
+      "style": "research",
+      "chairman": 0,
+      "privacy": "free",
+      "members": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview"
+        },
+        {
+          "provider": "openrouter",
+          "model": "deepseek/deepseek-r1-0528:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-coder:free"
+        }
+      ]
+    },
+    {
+      "name": "Free Arena",
+      "icon": "⚔️",
+      "description": "Gemini 3 Flash vs DeepSeek R1 vs Qwen 3 Coder — top free models compete",
+      "simpleDescription": "Three top free AIs compete on every question. You see all their answers and pick the winner.",
+      "style": "arena",
+      "chairman": null,
+      "privacy": "free",
+      "members": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview"
+        },
+        {
+          "provider": "openrouter",
+          "model": "deepseek/deepseek-r1-0528:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-coder:free"
+        }
+      ]
+    },
+    {
+      "name": "Free Pipeline",
+      "icon": "🧬",
+      "description": "DeepSeek R1 + Qwen 3 Next 80B respond, Gemini 3 Flash (1M ctx) refines",
+      "simpleDescription": "Free AIs improve each other's answers like a relay race. The last one polishes it into the best version.",
+      "style": "moa",
+      "chairman": 2,
+      "privacy": "free",
+      "members": [
+        {
+          "provider": "openrouter",
+          "model": "deepseek/deepseek-r1-0528:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-next-80b-a3b-instruct:free"
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview"
+        }
+      ]
+    },
+    {
+      "name": "Free Router",
+      "icon": "🛤️",
+      "description": "Gemini 3 Flash (1M ctx) routes to DeepSeek R1, Qwen 3 Coder, or GPT-OSS 120B",
+      "simpleDescription": "Automatically picks the best free AI for each question.",
+      "style": "router",
+      "chairman": 0,
+      "privacy": "free",
+      "members": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview"
+        },
+        {
+          "provider": "openrouter",
+          "model": "deepseek/deepseek-r1-0528:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-coder:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "openai/gpt-oss-120b:free"
+        }
+      ]
+    },
+    {
+      "name": "Free Side-by-Side",
+      "icon": "🔍",
+      "description": "Gemini 3 Flash vs DeepSeek R1 vs Qwen 3 Coder vs GPT-OSS 120B — compare free models",
+      "simpleDescription": "See how the top free AIs answer the same question, side by side.",
+      "style": "compare",
+      "chairman": null,
+      "privacy": "free",
+      "members": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview"
+        },
+        {
+          "provider": "openrouter",
+          "model": "deepseek/deepseek-r1-0528:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-coder:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "openai/gpt-oss-120b:free"
+        }
+      ]
+    },
+    {
+      "name": "Debate Club",
+      "icon": "💬",
+      "description": "Free models argue opposing sides with assigned positions, moderator resolves",
+      "simpleDescription": "Free AIs argue opposite sides of your question. A moderator picks the strongest argument and gives you the answer.",
+      "style": "debate",
+      "chairman": 0,
+      "privacy": "free",
+      "members": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview"
+        },
+        {
+          "provider": "openrouter",
+          "model": "deepseek/deepseek-r1-0528:free",
+          "side": "for"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-next-80b-a3b-instruct:free",
+          "side": "against"
+        }
+      ]
+    },
+    {
+      "name": "Consensus Panel",
+      "icon": "🗳️",
+      "description": "5 top free models each answer, then vote — top-scored response wins",
+      "simpleDescription": "Five top free AIs all answer your question, then vote on the best response. The most popular answer wins.",
+      "style": "consensus",
+      "chairman": null,
+      "privacy": "free",
+      "members": [
+        {
+          "provider": "gemini",
+          "model": "gemini-3-flash-preview"
+        },
+        {
+          "provider": "openrouter",
+          "model": "deepseek/deepseek-r1-0528:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-coder:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "qwen/qwen3-next-80b-a3b-instruct:free"
+        },
+        {
+          "provider": "openrouter",
+          "model": "openai/gpt-oss-120b:free"
+        }
+      ]
+    }
   ]
 }

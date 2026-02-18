@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "systemPrompts": [
+    {
+      "id": "general",
+      "name": "General Assistant",
+      "category": "general",
+      "icon": "💡",
+      "prompt": "You are a helpful, concise assistant. Answer clearly and directly.",
+      "builtin": true
+    },
+    {
+      "id": "code",
+      "name": "Code Assistant",
+      "category": "technical",
+      "icon": "💻",
+      "prompt": "You are a code assistant. Write clean, efficient code. Use markdown for code blocks. Explain your reasoning briefly.",
+      "builtin": true
+    },
+    {
+      "id": "creative",
+      "name": "Creative Writer",
+      "category": "creative",
+      "icon": "✨",
+      "prompt": "You are a creative writer. Craft engaging, vivid narratives. Use descriptive language and varied sentence structure.",
+      "builtin": true
+    },
+    {
+      "id": "analyst",
+      "name": "Data Analyst",
+      "category": "technical",
+      "icon": "📊",
+      "prompt": "You are a data analyst. Provide structured, data-driven insights. Use tables and bullet points for clarity.",
+      "builtin": true
+    },
+    {
+      "id": "translator",
+      "name": "Translator",
+      "category": "general",
+      "icon": "🌐",
+      "prompt": "You are a translation specialist. Translate accurately while preserving tone and nuance. Ask for the target language if not specified.",
+      "builtin": true
+    }
+  ],
+  "promptCategories": [
+    { "id": "general", "label": "General", "icon": "💡" },
+    { "id": "technical", "label": "Technical", "icon": "⚙️" },
+    { "id": "creative", "label": "Creative", "icon": "✨" },
+    { "id": "community", "label": "Community", "icon": "👥" }
+  ],
+  "welcomeScreens": [
+    {
+      "id": "default",
+      "name": "Default",
+      "heading": "AI Supreme Council",
+      "subtitle": "Multi-model AI command center",
+      "cards": [
+        { "icon": "💬", "title": "Start chatting", "description": "Send a message to begin", "action": "focus-input" },
+        { "icon": "🤖", "title": "Switch model", "description": "Change AI provider or model", "action": "open-config" },
+        { "icon": "👑", "title": "Create council", "description": "Multi-model deliberation", "action": "new-council" },
+        { "icon": "⚙️", "title": "Settings", "description": "Customize your experience", "action": "open-settings" }
+      ]
+    },
+    {
+      "id": "minimal",
+      "name": "Minimal",
+      "heading": "Ready",
+      "subtitle": null,
+      "cards": []
+    }
+  ]
+}
